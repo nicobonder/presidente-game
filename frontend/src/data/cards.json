@@ -1,0 +1,349 @@
+{
+  "avance": [
+    { "id": "AV1", "texto": "Vientos favorables en la campaña.", "efecto": "avanza", "cantidad": 1 },
+    { "id": "AV2", "texto": "La prensa te trata bien esta semana.", "efecto": "avanza", "cantidad": 2 },
+    { "id": "AV3", "texto": "Discurso brillante en cadena nacional.", "efecto": "avanza", "cantidad": 3 },
+    { "id": "AV4", "texto": "Alianza estratégica con partido menor.", "efecto": "avanza", "cantidad": 4 },
+    { "id": "AV5", "texto": "Encuestas te ubican como favorito.", "efecto": "avanza", "cantidad": 5 },
+    { "id": "AV6", "texto": "Escándalo del rival te beneficia.", "efecto": "avanza", "cantidad": 2 },
+    { "id": "AV7", "texto": "Cierre de campaña exitoso.", "efecto": "avanza", "cantidad": 3 }
+  ],
+  "premio": [
+    {
+      "id": "PR1",
+      "partido": {
+        "PJ": "Reconstrucción del gabinete, atrae nuevos votantes.",
+        "UCRR": "Homenaje a prócer recupera la imagen del partido.",
+        "RPI": "Gana el voto de mujeres pro-aborto.",
+        "RPD": "Bajan los índices de delincuencia."
+      },
+      "efecto": "saca_avance"
+    },
+    {
+      "id": "PR2",
+      "partido": {
+        "PJ": "Se vuelven a aliar viejos caudillos. Se recuperan votos.",
+        "UCRR": "Apoyo de principales líderes para su candidatura.",
+        "RPI": "Su plan de gobierno recibe el apoyo de intelectuales.",
+        "RPD": "Despegarse de viejos dinosaurios es bien visto."
+      },
+      "efecto": "saca_avance"
+    },
+    {
+      "id": "PR3",
+      "partido": {
+        "PJ": "Aumenta el empleo gracias al gasto público.",
+        "UCRR": "Su diplomacia lo hace ganar aliados.",
+        "RPI": "Es visto como una alternativa para renovar la política.",
+        "RPD": "Su look gana el voto de las jovencitas."
+      },
+      "efecto": "saca_avance"
+    },
+    {
+      "id": "PR4",
+      "partido": {
+        "PJ": "Jueces desestiman juicios en su contra.",
+        "UCRR": "Logra probar que las acusaciones de corrupción son falsas.",
+        "RPI": "Logra despegar a sus colaboradores de incidentes en marchas.",
+        "RPD": "Colaboradores muestran que trabajaban en cargos civiles durante la dictadura."
+      },
+      "efecto": "avanza",
+      "cantidad": 4
+    },
+    {
+      "id": "PR5",
+      "partido": {
+        "PJ": "Logra seducir a grupos piqueteros rebeldes.",
+        "UCRR": "Principio de acuerdo con gremialistas.",
+        "RPI": "Su focalización en los trabajadores gana la simpatía gremial.",
+        "RPD": "Logra demostrar que beneficiar a los empleadores beneficia también a los empleados."
+      },
+      "efecto": "avanza",
+      "cantidad": 4
+    },
+    {
+      "id": "PR6",
+      "partido": {
+        "PJ": "Sus rivales se fragmentan y capta algunos votos.",
+        "UCRR": "Ex presidente opositor aparece y eso lo beneficia.",
+        "RPI": "Ante escasez de candidatos, aparece como opción válida.",
+        "RPD": "Su riqueza personal parece garantizar que no robará."
+      },
+      "efecto": "rivales_retroceden",
+      "cantidad": 3
+    },
+    {
+      "id": "PR7",
+      "partido": { "todos": "TIENE SUERTE: UD. ES UN POLÍTICO ARGENTINO. SUS SOBORNOS LIMPIAN SUS ACTOS." },
+      "efecto": "avanza",
+      "cantidad": 1
+    },
+    {
+      "id": "PR8",
+      "partido": { "todos": "TIENE SUERTE: UD. ES UN POLÍTICO ARGENTINO. JUECES AMIGOS PERSIGUEN A SUS OPOSITORES." },
+      "efecto": "elige_rival_retrocede",
+      "cantidad": 3
+    },
+    {
+      "id": "PR9",
+      "partido": { "todos": "TIENE SUERTE: UD. ES UN POLÍTICO ARGENTINO. SUS FECHORÍAS NUNCA SE DESCUBRIRÁN O QUEDARÁN IMPUNES." },
+      "efecto": "avanza",
+      "cantidad": 1
+    }
+  ],
+  "castigo": [
+    {
+      "id": "CA1",
+      "salvacion_id": null,
+      "partido": {
+        "PJ": "Se desata la bolsa de gatos. Hay disidentes.",
+        "UCRR": "Uno de sus líderes cambia de bando.",
+        "RPI": "No logran acordar una estrategia y se vuelven a separar.",
+        "RPD": "Sus reacciones duras hacen que aliados decidan abrirse."
+      },
+      "efecto": "retrocede",
+      "cantidad": 2
+    },
+    {
+      "id": "CA2",
+      "salvacion_id": "carcel",
+      "partido": {
+        "PJ": "Descubren que sus familiares cobran planes sociales. Juicio político.",
+        "UCRR": "Cámara oculta lo muestra aceptando coimas. Marche preso.",
+        "RPI": "Inician juicio a colaborador sospechado de corrupción.",
+        "RPD": "Inician juicio a asesor que fue militar."
+      },
+      "efecto": "retrocede",
+      "cantidad": 2
+    },
+    {
+      "id": "CA3",
+      "salvacion_id": null,
+      "partido": {
+        "PJ": "Descubren zapatillas con su firma. Gran desprestigio.",
+        "UCRR": "Malos gobiernos anteriores acarrean desconfianza.",
+        "RPI": "No define plan de gobierno. Críticas de opositores.",
+        "RPD": "Decir que hay que realizar recortes presupuestarios no fue inteligente."
+      },
+      "efecto": "retrocede",
+      "cantidad": 2
+    },
+    {
+      "id": "CA4",
+      "salvacion_id": "gremios",
+      "partido": {
+        "PJ": "Piqueteros y sindicalistas reclaman que cumpla con sus promesas.",
+        "UCRR": "Gremialistas le organizan un paro nacional.",
+        "RPI": "Su mirada utópica le impide llegar a acuerdos con gremialistas.",
+        "RPD": "Sus intentos de beneficiar a los empleadores son castigados con paros."
+      },
+      "efecto": "retrocede",
+      "cantidad": 3
+    },
+    {
+      "id": "CA5",
+      "salvacion_id": "carcel",
+      "partido": {
+        "PJ": "Un funcionario es encarcelado por corrupción.",
+        "UCRR": "Juicio político a un ministro de su partido.",
+        "RPI": "Grupos radicales hacen destrozos. Un aliado es encarcelado.",
+        "RPD": "Juicio a ex represor que le había dado su apoyo."
+      },
+      "efecto": "retrocede",
+      "cantidad": 3
+    },
+    {
+      "id": "CA6",
+      "salvacion_id": null,
+      "partido": {
+        "PJ": "Medidas populistas ponen en rojo las cuentas públicas.",
+        "UCRR": "Ex presidente lento le da su apoyo. Pianta votos.",
+        "RPI": "Su plan económico es tildado de utópico.",
+        "RPD": "Opiniones de sus funcionarios lo dejan mal parado. Debe despedirlos."
+      },
+      "efecto": "retrocede",
+      "cantidad": 3
+    },
+    {
+      "id": "CA7",
+      "salvacion_id": null,
+      "partido": {
+        "PJ": "Internas en el gabinete. Declaraciones cruzadas. Mala prensa.",
+        "UCRR": "Frases desacertadas son ridiculizadas por la prensa.",
+        "RPI": "El apoyo al aborto lo enemista con la iglesia. La prensa derechista inicia campaña en su contra.",
+        "RPD": "La prensa acusa a su policía de gatillo fácil."
+      },
+      "efecto": "pierde_turno"
+    },
+    {
+      "id": "CA8",
+      "salvacion_id": null,
+      "partido": {
+        "PJ": "El tono de sus discursos enardece a sectores económicos opositores.",
+        "UCRR": "La cadencia de sus discursos aburre al público.",
+        "RPI": "Su discurso es tomado como más de lo mismo de siempre.",
+        "RPD": "Su pasado hace poco creíbles sus declaraciones."
+      },
+      "efecto": "pierde_turno"
+    },
+    {
+      "id": "CA9",
+      "salvacion_id": null,
+      "partido": {
+        "PJ": "Destrozos después de un acto eleccionario.",
+        "UCRR": "Una de sus marchas termina en graves incidentes.",
+        "RPI": "Pintadas racistas de sus seguidores provocan rechazos generalizados.",
+        "RPD": "Lo acusan de infiltrar gente en actos de opositores."
+      },
+      "efecto": "pierde_turno"
+    }
+  ],
+  "elecciones": [
+    { "id": "EL1", "texto": "Pierde con un margen muy ajustado. Hay sospechas y el caso va a la justicia. De todas formas, ya perdió.", "efecto": "retrocede", "cantidad": 1 },
+    { "id": "EL2", "texto": "Todos los posters que pegó aparecen con pintadas obscenas sobre su rostro. Un gran gasto que se vuelve en contra.", "efecto": "retrocede", "cantidad": 1 },
+    { "id": "EL3", "texto": "Pierde las internas de su partido y es ridiculizado por sus co-partidarios.", "efecto": "retrocede", "cantidad": 1 },
+    { "id": "EL4", "texto": "Gana una gobernación. Esto le da mucha fuerza a su carrera hacia la presidencia.", "efecto": "avanza", "cantidad": 5 },
+    { "id": "EL5", "texto": "Su partido logra la mayoría en el Senado. Esto obliga a los demás partidos a negociar con ud.", "efecto": "avanza", "cantidad": 5 },
+    { "id": "EL6", "texto": "Avasallador triunfo le permite gastar a sus adversarios.", "efecto": "avanza", "cantidad": 5 },
+    { "id": "EL7", "texto": "Logra modificar la Constitución de su provincia. Va por otro mandato y gana.", "efecto": "avanza", "cantidad": 4 },
+    { "id": "EL8", "texto": "El apoyo de los líderes partidarios le da una ventaja tranquila sobre los demás candidatos.", "efecto": "avanza", "cantidad": 4 },
+    { "id": "EL9", "texto": "Ganan todos los candidatos que apoyó durante la campaña. Es visto como el líder indiscutido del partido.", "efecto": "avanza", "cantidad": 4 },
+    { "id": "EL10", "texto": "¡Gana las elecciones! Pero descubren el fraude.", "efecto": "retrocede", "cantidad": 5 },
+    { "id": "EL11", "texto": "A último momento se baja de las elecciones por un arreglo turbio con aliados.", "efecto": "retrocede", "cantidad": 5 },
+    { "id": "EL12", "texto": "Faltó presupuesto para la campaña. Termina detrás de un grupo vecinal.", "efecto": "retrocede", "cantidad": 5 }
+  ],
+  "eleccion_final": [
+    { "id": "EF1", "texto": "Pierde por más de 20 puntos. Fracaso político.", "efecto": "retrocede", "cantidad": 5 },
+    { "id": "EF2", "texto": "Pierde ajustadamente. Nadie esperaba que estuviera tan cerca.", "efecto": "retrocede", "cantidad": 5 },
+    { "id": "EF3", "texto": "Empate técnico. Va al Ballotage.", "efecto": "ballotage" },
+    { "id": "EF4", "texto": "¡Ganador absoluto! FELICITACIONES PRESIDENTE.", "efecto": "gana" },
+    { "id": "EF5", "texto": "Pierde por más de 20 puntos. Fracaso político.", "efecto": "retrocede", "cantidad": 5 },
+    { "id": "EF6", "texto": "Pierde ajustadamente. Nadie esperaba que estuviera tan cerca.", "efecto": "retrocede", "cantidad": 5 },
+    { "id": "EF7", "texto": "Empate técnico. Va al Ballotage.", "efecto": "ballotage" },
+    { "id": "EF8", "texto": "¡Ganador absoluto! FELICITACIONES PRESIDENTE.", "efecto": "gana" }
+  ],
+  "salvacion": [
+    { "id": "SA1", "salvacion_id": "inundaciones", "texto": "A usar contra: Inundaciones, lluvias, sequías e incendios." },
+    { "id": "SA2", "salvacion_id": "carcel", "texto": "A usar contra: La cárcel y los juicios." },
+    { "id": "SA3", "salvacion_id": "internacional", "texto": "A usar contra: Desestabilización internacional." },
+    { "id": "SA4", "salvacion_id": "gremios", "texto": "A usar contra: Problemas con gremialistas y piqueteros." }
+  ],
+  "situacion": [
+    { "id": "SI1", "texto": "Tiene un romance mediático. Suma votos, aunque nadie sepa por qué.", "efecto": "avanza", "cantidad": 3 },
+    { "id": "SI2", "texto": "Logra apoyos internacionales.", "efecto": "avanza", "cantidad": 1 },
+    { "id": "SI3", "texto": "Gana las internas partidarias. Es el candidato natural.", "efecto": "avanza", "cantidad": 1 },
+    { "id": "SI4", "texto": "Gana la mesa 78 de Chapadmalal. 108 votos de un total de 250 votantes. Campañón.", "efecto": "avanza", "cantidad": 1 },
+    { "id": "SI5", "texto": "Su partido consigue 2 concejales en Tío Pujio. Fundamental para crecer hacia el interior.", "efecto": "avanza", "cantidad": 1 },
+    { "id": "SI6", "texto": "Mete un Tweet que se hace viral. Consigue votos de la generación Z.", "efecto": "avanza", "cantidad": 2 },
+    { "id": "SI7", "texto": "¡Saque una Tarjeta de Premio y siga sus instrucciones!", "efecto": "saca_premio" },
+    { "id": "SI8", "texto": "¡Saque una Tarjeta de Premio y siga sus instrucciones!", "efecto": "saca_premio" },
+    { "id": "SI9", "texto": "¡Saque una Tarjeta de Premio y siga sus instrucciones!", "efecto": "saca_premio" },
+    { "id": "SI10", "texto": "UH QUE MALA SUERTE!! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
+    { "id": "SI11", "texto": "UH QUE MALA SUERTE!! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
+    { "id": "SI12", "texto": "UH QUE MALA SUERTE!! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
+    { "id": "SI13", "texto": "¡Gana las elecciones! Pero descubren el fraude.", "efecto": "retrocede", "cantidad": 5 },
+    { "id": "SI14", "texto": "A último momento se baja de las elecciones por un arreglo turbio con aliados.", "efecto": "retrocede", "cantidad": 5 },
+    { "id": "SI15", "texto": "Faltó presupuesto para la campaña. Termina atrás de un grupo vecinal.", "efecto": "retrocede", "cantidad": 5 },
+    { "id": "SI16", "texto": "PROBLEMAS EN LA CAMPAÑA. NO AVANZA. (Espera próximo turno)", "efecto": "pierde_turno" },
+    { "id": "SI17", "texto": "UH QUE MALA SUERTE!! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
+    { "id": "SI18", "texto": "UH QUE MALA SUERTE!! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" }
+  ],
+  "preguntas": [
+    {
+      "id": "PQ1",
+      "pregunta": "¿Desde cuándo las islas Malvinas están ocupadas por los ingleses?",
+      "opciones": ["1833", "1789", "1859", "1877"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ2",
+      "pregunta": "¿Quién fue el presidente de la Primera Junta de Gobierno constituida en 1810?",
+      "opciones": ["Juan Martín de Pueyrredón", "Manuel Belgrano", "Cornelio Saavedra"],
+      "correcta": 2
+    },
+    {
+      "id": "PQ3",
+      "pregunta": "¿En qué año se convierte en presidente Sarmiento?",
+      "opciones": ["En 1868", "En 1816", "En 1888"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ4",
+      "pregunta": "¿Quién fue elegido como Director Supremo durante las sesiones del Congreso de Tucumán en 1816?",
+      "opciones": ["Manuel Dorrego", "Juan Bautista Alberdi", "Juan Martín de Pueyrredón"],
+      "correcta": 2
+    },
+    {
+      "id": "PQ5",
+      "pregunta": "¿Quién ganó la batalla de Pavón?",
+      "opciones": ["San Martín", "Bartolomé Mitre", "Justo José de Urquiza"],
+      "correcta": 1
+    },
+    {
+      "id": "PQ6",
+      "pregunta": "¿Qué cargo tenía Perón en el golpe de 1943?",
+      "opciones": ["Vicepresidente", "Ministro de guerra", "Secretario de agricultura"],
+      "correcta": 1
+    },
+    {
+      "id": "PQ7",
+      "pregunta": "¿Quién fue el primer presidente elegido tras la ley Sáenz Peña?",
+      "opciones": ["Luis Sáenz Peña", "Hipólito Yrigoyen", "Roque Sáenz Peña"],
+      "correcta": 1
+    },
+    {
+      "id": "PQ8",
+      "pregunta": "¿En qué década del siglo XX se da el primer golpe militar?",
+      "opciones": ["En 1910", "En 1930", "En 1940"],
+      "correcta": 1
+    },
+    {
+      "id": "PQ9",
+      "pregunta": "¿En qué año asume Perón su primera presidencia?",
+      "opciones": ["En 1938", "En 1946", "En 1955"],
+      "correcta": 1
+    },
+    {
+      "id": "PQ10",
+      "pregunta": "¿En qué año derrocaron a Frondizzi?",
+      "opciones": ["1962", "1966", "1976"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ11",
+      "pregunta": "¿Quién fue ganador de las elecciones presidenciales de 1999?",
+      "opciones": ["Fernando de la Rúa", "Carlos Menem", "Eduardo Duhalde"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ12",
+      "pregunta": "¿Quién dijo durante un acto \"A vos no te va tan mal gordito\"?",
+      "opciones": ["Néstor Kirchner", "Raúl Alfonsín", "Carlos Menem"],
+      "correcta": 2
+    },
+    {
+      "id": "PQ13",
+      "pregunta": "¿Quién dijo \"En este país nadie hace la plata trabajando\"?",
+      "opciones": ["Álvaro Alsogaray", "Hugo Moyano", "Luis Barrionuevo"],
+      "correcta": 2
+    },
+    {
+      "id": "PQ14",
+      "pregunta": "¿Cuál fue la primera mujer en asumir el cargo de presidente?",
+      "opciones": ["María E. Martínez de Perón", "Eva Perón", "Cristina Kirchner"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ15",
+      "pregunta": "¿Cuál fue el primer presidente constitucional derrocado por un golpe militar?",
+      "opciones": ["Domingo Perón", "Hipólito Yrigoyen", "Domingo F. Sarmiento"],
+      "correcta": 1
+    },
+    {
+      "id": "PQ16",
+      "pregunta": "¿Quién dijo \"Con la convertibilidad, habrá más de seis décadas de crecimiento y prosperidad en la Argentina\"?",
+      "opciones": ["Carlos Menem", "Domingo Cavallo", "Javier Milei"],
+      "correcta": 1
+    }
+  ]
+}
