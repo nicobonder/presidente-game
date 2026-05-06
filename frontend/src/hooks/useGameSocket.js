@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 
-const WS_BASE = import.meta.env.VITE_WS_URL || 'ws://localhost:8000';
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+function getWsBase() {
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${protocol}//${window.location.host}`;
+}
 
 export function useGameSocket(roomId, playerId) {
   const wsRef = useRef(null);
@@ -12,13 +14,10 @@ export function useGameSocket(roomId, playerId) {
 
   useEffect(() => {
     if (!roomId || !playerId) return;
-
-    const ws = new WebSocket(`${WS_BASE}/ws/${roomId}/${playerId}`);
+    const ws = new WebSocket(`${getWsBase()}/ws/${roomId}/${playerId}`);
     wsRef.current = ws;
-
-    ws.onopen = () => setConnected(true);
+    ws.onopen  = () => setConnected(true);
     ws.onclose = () => setConnected(false);
-
     ws.onmessage = (e) => {
       const msg = JSON.parse(e.data);
       if (msg.type === 'room_state') {
@@ -30,7 +29,6 @@ export function useGameSocket(roomId, playerId) {
         console.warn('Server error:', msg.message);
       }
     };
-
     return () => ws.close();
   }, [roomId, playerId]);
 
@@ -48,7 +46,7 @@ export function useGameSocket(roomId, playerId) {
 }
 
 export async function joinRoom(playerName, roomId = null) {
-  const res = await fetch(`${API_BASE}/rooms/join`, {
+  const res = await fetch('/rooms/join', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ player_name: playerName, room_id: roomId }),

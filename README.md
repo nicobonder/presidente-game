@@ -24,14 +24,14 @@ cd backend
 
 # Crear entorno virtual (recomendado)
 python -m venv venv
-source venv/bin/activate        # macOS/Linux
+source venv/bin/activate        # macOS/Linux/codespace
 # venv\Scripts\activate         # Windows
 
 # Instalar dependencias
 pip install -r requirements.txt
 
 # Correr el servidor
-uvicorn main:app --reload --port 8000
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 El backend queda en: `http://localhost:8000`

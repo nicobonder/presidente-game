@@ -13,60 +13,84 @@ const TYPE_STYLES = {
 };
 
 // ─── Question Card ─────────────────────────────────────────────────────────────
-function QuestionCard({ card, onAnswer }) {
-  const [selected, setSelected] = useState(null);
-  const [revealed, setRevealed] = useState(false);
+function QuestionCard({ card, playerId, pending, isActivePlayer, onAnswer }) {
+  const [selected, setSelected]   = useState(null);
+  const [revealed, setRevealed]   = useState(false);
+  const style = TYPE_STYLES.pregunta;
+
+  const isSecondPlayer  = pending?.second_player_id === playerId && pending?.first_wrong;
+  const isOriginalPlayer = pending?.player_id === playerId && !pending?.first_wrong;
+  const canAnswer       = isActivePlayer || isSecondPlayer;
+  const firstWrong      = pending?.first_wrong;
 
   function handleChoice(idx) {
-    if (revealed) return;
+    if (revealed || !canAnswer) return;
     setSelected(idx);
     setRevealed(true);
-    setTimeout(() => onAnswer(idx === card.correcta), 1500);
+    const correct = idx === card.correcta;
+    setTimeout(() => onAnswer(correct, idx, isSecondPlayer), 1200);
   }
-
-  const style = TYPE_STYLES.pregunta;
 
   return (
     <div style={cardContainer(style)}>
-      <CardHeader style={style} />
-      <p style={{ fontWeight: 700, fontSize: 15, marginBottom: 16, color: '#1e1b4b', lineHeight: 1.5 }}>
+      <CardHeader style={style} playerName={playerName} isActivePlayer={isActivePlayer} />
+
+      {firstWrong && isSecondPlayer && (
+        <div style={{
+          background:'#fef3c7', border:'1px solid #f59e0b',
+          borderRadius:8, padding:'8px 12px', marginBottom:12, fontSize:13, color:'#92400e'
+        }}>
+          ⚡ El jugador anterior respondió mal. ¡Tu oportunidad!
+        </div>
+      )}
+
+      <p style={{ fontWeight:700, fontSize:15, marginBottom:16, color:'#1e1b4b', lineHeight:1.5 }}>
         {card.pregunta}
       </p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+
+      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
         {card.opciones.map((op, i) => {
-          let bg = 'white';
-          let border = '#c7d2fe';
-          let color = '#312e81';
+          let bg='white', border='#c7d2fe', color='#312e81';
+
           if (revealed) {
-            if (i === card.correcta) { bg = '#dcfce7'; border = '#16a34a'; color = '#14532d'; }
-            else if (i === selected && i !== card.correcta) { bg = '#fee2e2'; border = '#dc2626'; color = '#7f1d1d'; }
+            if (i === card.correcta)                       { bg='#dcfce7'; border='#16a34a'; color='#14532d'; }
+            else if (i === selected && i !== card.correcta){ bg='#fee2e2'; border='#dc2626'; color='#7f1d1d'; }
           }
+
+          // For second player: hide which answer first player chose
+          const isDisabled = revealed || !canAnswer;
+
           return (
-            <button key={i}
-              onClick={() => handleChoice(i)}
-              disabled={revealed}
+            <button key={i} onClick={() => handleChoice(i)} disabled={isDisabled}
               style={{
-                padding: '10px 14px',
-                border: `2px solid ${border}`,
-                borderRadius: 8,
-                background: bg,
-                color,
-                fontWeight: 600,
-                fontSize: 13,
-                cursor: revealed ? 'default' : 'pointer',
-                textAlign: 'left',
-                transition: 'all 0.2s',
-              }}
-            >
-              {String.fromCharCode(65 + i)}. {op}
+                padding:'10px 14px', border:`2px solid ${border}`,
+                borderRadius:8, background:bg, color,
+                fontWeight:600, fontSize:13,
+                cursor:isDisabled ? 'default' : 'pointer',
+                textAlign:'left', transition:'all 0.2s',
+              }}>
+              {String.fromCharCode(65+i)}. {op}
             </button>
           );
         })}
       </div>
+
+      {!canAnswer && !revealed && (
+        <p style={{marginTop:12,color:'#64748b',fontSize:12,textAlign:'center'}}>
+          {firstWrong
+            ? 'Esperando que el siguiente jugador responda...'
+            : 'Esperando respuesta...'}
+        </p>
+      )}
+
       {revealed && (
-        <p style={{ marginTop: 14, fontWeight: 700, fontSize: 14, textAlign: 'center',
-          color: selected === card.correcta ? '#16a34a' : '#dc2626' }}>
-          {selected === card.correcta ? '✅ ¡Correcto! Avanzás 3 casilleros' : '❌ Incorrecto. Retrocedés 3 casilleros'}
+        <p style={{
+          marginTop:14, fontWeight:700, fontSize:14, textAlign:'center',
+          color: selected === card.correcta ? '#16a34a' : '#dc2626'
+        }}>
+          {selected === card.correcta
+            ? '✅ ¡Correctooo!'
+            : '❌ Incorrecto 🤦🏻'}
         </p>
       )}
     </div>
@@ -74,7 +98,9 @@ function QuestionCard({ card, onAnswer }) {
 }
 
 // ─── Standard Card ─────────────────────────────────────────────────────────────
-function StandardCard({ card, cardType, playerParty, onConfirm, onVeto, rivals, canVeto }) {
+function StandardCard({ card, cardType, playerParty, playerName, isActivePlayer,
+  timer, pendingType, canSalvacion, canVeto,
+  onConfirm, onUseSalvacion, onUseVeto, rivals, onChooseRival }) {
   const style = TYPE_STYLES[cardType] || TYPE_STYLES.avance;
 
   // Get party-specific text
@@ -117,23 +143,46 @@ function StandardCard({ card, cardType, playerParty, onConfirm, onVeto, rivals, 
         </div>
       )}
 
-      {card.efecto !== 'elige_rival_retrocede' && (
-        <button onClick={() => onConfirm()} style={actionBtn('#0f172a')}>
-          Aceptar
+      {canSalvacion && (
+        <button onClick={onUseSalvacion} style={actionBtn('#f97316')}>
+          🛡️ Usar Tarjeta de Salvación
         </button>
       )}
 
-      {canVeto && cardType === 'premio' && (
-        <button onClick={onVeto}
-          style={{ ...actionBtn('#dc2626'), marginTop: 8, fontSize: 12 }}>
+      {canVeto && (
+        <button onClick={onUseVeto} style={actionBtn('#dc2626')}>
           🚫 Usar VETO ABSOLUTO
         </button>
+      )}
+
+      {isActivePlayer &&
+        card.efecto !== 'elige_rival_retrocede' &&
+        cardType !== 'elecciones' &&
+        cardType !== 'eleccion_final' &&
+        pendingType !== 'show_card_no_confirm' && (
+        <button onClick={() => onConfirm()} style={actionBtn('#0f172a')}>
+          {cardType === 'castigo'
+            ? (timer > 0 ? `Aceptar castigo (${timer}s)` : 'Aceptar castigo')
+            : 'Aceptar'}
+        </button>
+      )}
+
+      {pendingType === 'show_card_no_confirm' && (
+        <p style={{ color: '#64748b', fontSize: 13, textAlign: 'center', marginTop: 8 }}>
+          Aplicando en 3 segundos...
+        </p>
+      )}
+
+      {!isActivePlayer && !canVeto && pendingType !== 'show_card_no_confirm' && (
+        <p style={{ color: '#64748b', fontSize: 12, textAlign: 'center', marginTop: 8 }}>
+          {timer !== null ? `Tenés ${timer}s para usar el Veto` : 'Observando...'}
+        </p>
       )}
     </div>
   );
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────── ──────────────────────
 function CardHeader({ style }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
@@ -187,8 +236,15 @@ function getEffectLabel(card) {
 }
 
 // ─── Main export ──────────────────────────────────────────────────────────────
-export default function CardModal({ card, cardType, playerParty, onAnswer, onConfirm, onVeto, rivals, canVeto, onClose }) {
+export default function CardModal({
+  card, cardType, playerParty, playerName,
+  isActivePlayer, playerId, pending,
+  timer, canSalvacion, canVeto, pendingType,
+  rivals, onAnswer, onConfirm,
+  onUseSalvacion, onUseVeto, onChooseRival,
+}) {
   if (!card) return null;
+  const style = TYPE_STYLES[cardType] || TYPE_STYLES.avance;
 
   return (
     <div style={{
@@ -201,10 +257,20 @@ export default function CardModal({ card, cardType, playerParty, onAnswer, onCon
       onClick={(e) => { if (e.target === e.currentTarget) onClose?.(); }}
     >
       {cardType === 'pregunta'
-        ? <QuestionCard card={card} onAnswer={onAnswer} />
+        ? <QuestionCard
+            card={card}
+            playerId={playerId}
+            pending={pending}
+            isActivePlayer={isActivePlayer}
+            onAnswer={onAnswer}
+          />
         : <StandardCard
             card={card} cardType={cardType} playerParty={playerParty}
-            onConfirm={onConfirm} onVeto={onVeto} rivals={rivals} canVeto={canVeto}
+            playerName={playerName} isActivePlayer={isActivePlayer}
+            timer={timer} pendingType={pendingType}
+            canSalvacion={canSalvacion} canVeto={canVeto}
+            onConfirm={onConfirm} onUseSalvacion={onUseSalvacion}
+            onUseVeto={onUseVeto} rivals={rivals} onChooseRival={onChooseRival}
           />
       }
     </div>

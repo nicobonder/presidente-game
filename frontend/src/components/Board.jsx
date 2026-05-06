@@ -1,16 +1,18 @@
 import React, { useMemo } from 'react';
-import { SPIRAL_COORDS, SQUARE_COLORS, SQUARE_TYPE, PARTIES } from '../data/boardConfig';
+import { SPIRAL_COORDS, SQUARE_COLORS, SQUARE_TYPE, PARTIES, getSpiralBorderColor } from '../data/boardConfig';
 
-const CELL_SIZE = 60;   // px per cell
+const CELL_SIZE = 64;
+const GAP = 4;
 const GRID = 10;
+const STEP = CELL_SIZE + GAP;
 
 const SQUARE_LABELS = {
   premio: '⭐',
   castigo: '💀',
   elecciones: '🗳️',
   pregunta: '❓',
-  especial13: '13',
-  especial56: '56',
+  especial13: '🤞🏻',
+  especial56: '♻️',
   presidencial: '🏛️',
   normal: '',
 };
@@ -48,6 +50,9 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
       const colors = SQUARE_COLORS[type];
       const players = playersBySquare[squareNum] || [];
       const label = SQUARE_LABELS[type];
+      const spiral  = getSpiralBorderColor(squareNum);
+      const border  = colors.border || spiral.border;
+      const numColor = colors.border ? colors.text : spiral.text;
 
       const x = col * CELL_SIZE;
       const y = row * CELL_SIZE;
@@ -58,30 +63,31 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
            style={{ cursor: 'pointer' }}>
           {/* Cell background */}
           <rect
-            x={x + 1} y={y + 1}
-            width={CELL_SIZE - 2} height={CELL_SIZE - 2}
-            rx={4}
+            x={x} y={y}
+            width={CELL_SIZE} height={CELL_SIZE}
+            rx={6}
             fill={colors.bg}
-            stroke={colors.border}
-            strokeWidth={type === 'normal' ? 1 : 2}
+            stroke={border}
+            strokeWidth={type === 'normal' ? 2 : 2.5}
           />
 
-          {/* Square number */}
+          {/* Square number — bold, colored by spiral turn */}
           <text
-            x={x + 4} y={y + 12}
-            fontSize={7}
-            fill={colors.text}
-            fontFamily="monospace"
-            opacity={0.6}
+            x={x + 5} y={y + 15}
+            fontSize={11}
+            fontWeight="bold"
+            fill={numColor}
+            fontFamily="system-ui"
           >
             {squareNum}
           </text>
 
-          {/* Special label / emoji */}
+          {/* Emoji/label */}
           {label && (
             <text
-              x={x + CELL_SIZE / 2} y={y + CELL_SIZE / 2 + (players.length ? -8 : 4)}
-              fontSize={type === 'especial13' || type === 'especial56' ? 11 : 16}
+              x={x + CELL_SIZE / 2}
+              y={y + CELL_SIZE / 2 + (players.length ? -8 : 5)}
+              fontSize={type === 'especial13' || type === 'especial56' ? 13 : 18}
               textAnchor="middle"
               dominantBaseline="middle"
               fill={colors.text}
@@ -93,18 +99,18 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
 
           {/* Player tokens */}
           {players.map((p, i) => {
-            const party = PARTIES[p.party];
-            const offX = (i % 2) * 16 - 8;
-            const offY = i < 2 ? 10 : 24;
+            const party  = PARTIES[p.party];
+            const offX   = (i % 2) * 18 - 9;
+            const offY   = i < 2 ? 12 : 26;
             return (
               <g key={p.id}>
                 <circle
                   cx={x + CELL_SIZE / 2 + offX}
                   cy={y + CELL_SIZE - offY}
-                  r={8}
+                  r={9}
                   fill={party?.color || '#666'}
                   stroke={p.id === currentPlayerId ? '#fbbf24' : 'white'}
-                  strokeWidth={p.id === currentPlayerId ? 2.5 : 1.5}
+                  strokeWidth={p.id === currentPlayerId ? 3 : 1.5}
                 />
                 <text
                   x={x + CELL_SIZE / 2 + offX}
@@ -125,7 +131,7 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
     }
   }
 
-  const svgSize = GRID * CELL_SIZE;
+  const svgSize = GRID * STEP;
 
   return (
     <div style={{
@@ -133,32 +139,46 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
       backgroundImage: 'none',
       backgroundColor: '#0f172a',
       borderRadius: 12,
-      padding: 8,
-      display: 'inline-block',
+      padding: 12,
+      display: 'block',
+      width: '100%',
+      boxSizing: 'border-box',
       boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
     }}>
       {/* Legend */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 8, flexWrap: 'wrap', padding: '0 4px' }}>
+      <div style={{ display: 'flex', gap: 12, marginBottom: 10, flexWrap: 'wrap', padding: '0 4px' }}>
+        <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600 }}>Vueltas:</span>
         {[
-          { color: SQUARE_COLORS.premio.border, label: '⭐ Premio' },
-          { color: SQUARE_COLORS.castigo.border, label: '💀 Castigo' },
-          { color: SQUARE_COLORS.elecciones.border, label: '🗳️ Elecciones' },
-          { color: SQUARE_COLORS.pregunta.border, label: '❓ Pregunta' },
-          { color: SQUARE_COLORS.especial13.border, label: '🔲 #13' },
-          { color: SQUARE_COLORS.especial56.border, label: '☠️ #56' },
-          { color: SQUARE_COLORS.presidencial.border, label: '🏛️ Presidencial' },
+          { color: '#3b82f6', label: '1ª vuelta' },
+          { color: '#e71e49', label: '2ª vuelta' },
+          { color: '#9bf50b', label: '3ª vuelta' },
+          { color: '#ec4899', label: '4ª vuelta' },
+          { color: '#ebde28', label: '5ª vuelta' },
         ].map(({ color, label }) => (
-          <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: '#94a3b8' }}>
-            <span style={{ width: 10, height: 10, borderRadius: 2, background: color, display: 'inline-block' }} />
+          <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#94a3b8' }}>
+            <span style={{ width: 12, height: 12, borderRadius: 3, background: color, display: 'inline-block' }} />
+            {label}
+          </span>
+        ))}
+        <span style={{ fontSize: 11, color: '#94a3b8', marginLeft: 8, fontWeight: 600 }}>Casilleros:</span>
+        {[
+          { color: '#eab308', label: '⭐ Premio' },
+          { color: '#ef4444', label: '💀 Castigo' },
+          { color: '#3b82f6', label: '🗳️ Elecciones' },
+          { color: '#6366f1', label: '❓ Pregunta' },
+        ].map(({ color, label }) => (
+          <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#94a3b8' }}>
+            <span style={{ width: 12, height: 12, borderRadius: 3, background: color, display: 'inline-block' }} />
             {label}
           </span>
         ))}
       </div>
 
-      <svg
-        width={svgSize}
-        height={svgSize}
-        style={{ display: 'block' }}
+     <svg
+        viewBox={`0 0 ${svgSize} ${svgSize}`}
+        width="100%"
+        height="100%"
+        style={{ display: 'block', aspectRatio: '1 / 1' }}
       >
         {cells}
       </svg>

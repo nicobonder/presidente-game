@@ -11,10 +11,10 @@
 //   PRES:       99  → Elecciones Presidenciales
 
 export const SPECIAL_SQUARES = {
-  premio:    [8, 22, 38, 64, 78],
-  castigo:   [16, 30, 44, 70, 85],
-  elecciones:[19, 35, 52, 67, 83],
-  pregunta:  [10, 25, 47, 60, 75],
+  premio:    [7, 21, 38, 65, 78, 92],
+  castigo:   [30, 44, 70, 85, 91],
+  elecciones:[19, 35, 52, 66, 83],
+  pregunta: [3, 9, 17, 25, 40, 48, 60, 74, 86, 90],
   especial13: [13],
   especial56: [56],
   presidencial: [99],
@@ -35,17 +35,10 @@ SPECIAL_SQUARES.presidencial.forEach(n => (SQUARE_TYPE[n] = 'presidencial'));
 // vamos girando hacia el centro. El casillero 0 queda en la esquina
 // inferior-izquierda y el 99 en el centro.
 export function buildSpiralCoords(size = 10) {
-  const grid = Array.from({ length: size }, () => Array(size).fill(null));
-  let top = 0, bottom = size - 1, left = 0, right = size - 1;
-  let num = 0;
-  // Dirección: derecha → arriba → izquierda → abajo (desde exterior)
-  // Empezamos en bottom-left yendo hacia la derecha
-  let row = size - 1, col = 0;
   // Usamos la secuencia estándar de espiral pero empezando desde abajo-izquierda
   // Para eso generamos en orden normal y luego invertimos el mapeo de número
-  const coords = {};
   // Generar recorrido espiral estándar (desde top-left, clockwise)
-  const spiral = [];
+    const spiral = [];
   let t = 0, b = size - 1, l = 0, r = size - 1;
   while (t <= b && l <= r) {
     for (let c = l; c <= r; c++) spiral.push([t, c]);
@@ -55,16 +48,41 @@ export function buildSpiralCoords(size = 10) {
     if (t <= b) { for (let c = r; c >= l; c--) spiral.push([b, c]); b--; }
     if (l <= r) { for (let rr = b; rr >= t; rr--) spiral.push([rr, l]); l++; }
   }
+  const coords = {};
   // Casillero 0 → último elemento de la espiral (centro-ish), 99 → primero
   // Queremos que 0 sea el inicio (exterior) y 99 sea el final
   // La espiral ya está en orden 0..99 desde exterior
-  spiral.forEach(([r, c], idx) => {
-    coords[idx] = { row: r, col: c };
-  });
+  spiral.forEach(([row, col], idx) => { coords[idx] = { row, col }; });
   return coords;
 }
 
 export const SPIRAL_COORDS = buildSpiralCoords(10);
+
+// Color por vuelta de espiral
+// Vuelta 0 (casilleros 0-35): exterior
+// Vuelta 1 (36-63)
+// Vuelta 2 (64-83)
+// Vuelta 3 (84-95)
+// Vuelta 4 (96-99): centro
+const SPIRAL_TURN_COLORS = [
+  { border: '#3b82f6', text: '#1e3a8a', label: 'azul' },    // vuelta 0
+  { border: '#16a34a', text: '#14532d', label: 'verde' },   // vuelta 1
+  { border: '#f59e0b', text: '#92400e', label: 'amarillo' },// vuelta 2
+  { border: '#ec4899', text: '#831843', label: 'rosa' },    // vuelta 3
+  { border: '#8b5cf6', text: '#4c1d95', label: 'violeta' }, // vuelta 4
+];
+
+function getSpiralTurn(squareNum) {
+  if (squareNum <= 35) return 0;
+  if (squareNum <= 63) return 1;
+  if (squareNum <= 83) return 2;
+  if (squareNum <= 95) return 3;
+  return 4;
+}
+
+export function getSpiralBorderColor(squareNum) {
+  return SPIRAL_TURN_COLORS[getSpiralTurn(squareNum)];
+}
 
 export const PARTIES = {
   PJ: {
@@ -73,7 +91,7 @@ export const PARTIES = {
     short: 'PJ',
     color: '#1a6fc4',
     bgColor: '#dbeafe',
-    emoji: '✊',
+    emoji: '✌️',
   },
   UCRR: {
     id: 'UCRR',
@@ -89,7 +107,7 @@ export const PARTIES = {
     short: 'RPD',
     color: '#7c3aed',
     bgColor: '#ede9fe',
-    emoji: '💼',
+    emoji: '🦍',
   },
   RPI: {
     id: 'RPI',
@@ -97,12 +115,12 @@ export const PARTIES = {
     short: 'RPI',
     color: '#dc2626',
     bgColor: '#fef2f2',
-    emoji: '✌️',
+    emoji: '🛠️',
   },
 };
 
 export const SQUARE_COLORS = {
-  normal:       { bg: '#f8fafc', border: '#cbd5e1', text: '#334155' },
+  normal:       { bg: '#ffffff', border: null, text: '#334155' }, // border viene de espiral
   premio:       { bg: '#fef9c3', border: '#eab308', text: '#854d0e' },
   castigo:      { bg: '#fee2e2', border: '#ef4444', text: '#7f1d1d' },
   elecciones:   { bg: '#dbeafe', border: '#3b82f6', text: '#1e3a8a' },
@@ -112,8 +130,10 @@ export const SQUARE_COLORS = {
   presidencial: { bg: '#f0fdf4', border: '#16a34a', text: '#14532d' },
 };
 
+export const GAME_NAME = 'A 100 pasos de La Rosada';
+
 export const REGLAMENTO = `
-# Reglamento — ¡A la Presidencia!
+# Reglamento — ¡A 100 pasos de la Rosada!
 
 ## Objetivo
 Avanzar por el tablero hasta convertirse en Presidente. La carrera comienza cuando te afiliás a un partido político y termina en el casillero de Elecciones Presidenciales (99).
