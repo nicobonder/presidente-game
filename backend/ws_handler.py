@@ -5,7 +5,7 @@ import aiosqlite
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 from config import DB_PATH, get_logger
-from connections import manager, start_timer, cancel_timer
+from connections import manager, start_timer, cancel_timer, start_election_timer
 from db import get_room, save_room
 from game_logic import process_action, build_game_players, new_room_state
 
@@ -125,7 +125,13 @@ async def _handle(ws: WebSocket, room_id: str, player_id: str, msg: dict):
             if p.get("type") in ("waiting_veto", "waiting_salvacion"):
                 async def on_timer_expire():
                     await _auto_apply(room_id)
+                cancel_timer(room_id)
                 start_timer(room_id, on_timer_expire)
+            elif p.get("type") == "show_card_no_confirm":
+                async def on_election_expire():
+                    await _auto_apply_election(room_id, p.get("player_id"), p.get("effect", {}))
+                cancel_timer(room_id)
+                start_election_timer(room_id, on_election_expire)
             else:
                 cancel_timer(room_id)
 
@@ -180,4 +186,22 @@ async def _auto_apply(room_id: str):
             "type":   "room_state",
             "state":  state,
             "events": [{"type": "timer_expired"}],
+        })
+
+async def _auto_apply_election(room_id: str, player_id: str, effect: dict):
+    """Apply election card effect after 3-second display."""
+    log.info("auto_apply_election room=%s player=%s", room_id, player_id)
+    async with aiosqlite.connect(DB_PATH) as db:
+        state = await get_room(db, room_id)
+        if not state:
+            return
+        # Only apply if still showing the same card
+        if (state.get("pending") or {}).get("type") != "show_card_no_confirm":
+            return
+        
+        state = copy.deepcopy(state)
+        state = apply_effect_and_check_chain(state, player_id, effect, [])
+        await save_room(db, room_id, state)
+        await manager.broadcast(room_id, {
+            "type": "room_state", "state": state, "events": []
         })

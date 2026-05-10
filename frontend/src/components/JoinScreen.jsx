@@ -35,7 +35,7 @@ export default function JoinScreen({ onJoin }) {
           color: 'white', fontSize: 42, fontWeight: 900, margin: 0,
           textShadow: '0 0 40px rgba(99,102,241,0.5)',
         }}>
-          ¡A la Presidencia!
+          ¡A 100 pasos de la Rosada!
         </h1>
         <p style={{ color: '#64748b', fontSize: 15, marginTop: 8 }}>
           El juego de la política argentina

@@ -26,7 +26,7 @@ export default function Lobby({ roomState, playerId, onSelectParty, onStartGame 
       padding: 24, fontFamily: 'system-ui, sans-serif',
     }}>
       <h1 style={{ color: 'white', fontSize: 36, fontWeight: 900, marginBottom: 4, textAlign: 'center' }}>
-        🏛️ ¡A la Presidencia!
+        🏛️ ¡A 100 pasos de la Rosada!
       </h1>
       <p style={{ color: '#94a3b8', marginBottom: 32, fontSize: 14 }}>
         Sala: <strong style={{ color: '#fbbf24', letterSpacing: 2 }}>{roomState.room_id}</strong>

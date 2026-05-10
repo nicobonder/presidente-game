@@ -26,12 +26,12 @@ BULRICHIZACION_TARGET = 24 # Number to where the player must comeback if they mo
 
 # Square type map — mirrors boardConfig.js
 SQUARE_TYPE_MAP: dict[int, str] = {}
-for n in [8, 22, 38, 64, 78]:              SQUARE_TYPE_MAP[n] = "premio"
-for n in [16, 30, 44, 70, 85]:             SQUARE_TYPE_MAP[n] = "castigo"
-for n in [19, 35, 52, 67, 83]:             SQUARE_TYPE_MAP[n] = "elecciones"
-for n in [4, 10, 17, 25, 29, 40, 47, 60, 74]: SQUARE_TYPE_MAP[n] = "pregunta"
+for n in [7, 18, 23, 38, 65, 78, 92]:      SQUARE_TYPE_MAP[n] = "premio"
+for n in [30, 44, 70, 85, 91]:             SQUARE_TYPE_MAP[n] = "castigo"
+for n in [19, 35, 52, 66, 83]:             SQUARE_TYPE_MAP[n] = "elecciones"
+for n in [3, 9, 17, 25, 40, 48, 60, 74, 86, 90]: SQUARE_TYPE_MAP[n] = "pregunta"
 SQUARE_TYPE_MAP[13] = "especial13"
 SQUARE_TYPE_MAP[56] = "especial56"
 SQUARE_TYPE_MAP[99] = "presidencial"
 
-ELECTION_SQUARES = {19, 35, 52, 67, 83}
+ELECTION_SQUARES = {19, 35, 52, 66, 83}

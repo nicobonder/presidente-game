@@ -11,7 +11,7 @@
 //   PRES:       99  → Elecciones Presidenciales
 
 export const SPECIAL_SQUARES = {
-  premio:    [7, 21, 38, 65, 78, 92],
+  premio:    [7, 18, 23, 38, 65, 78, 92],
   castigo:   [30, 44, 70, 85, 91],
   elecciones:[19, 35, 52, 66, 83],
   pregunta: [3, 9, 17, 25, 40, 48, 60, 74, 86, 90],
@@ -126,7 +126,7 @@ export const SQUARE_COLORS = {
   elecciones:   { bg: '#dbeafe', border: '#3b82f6', text: '#1e3a8a' },
   pregunta:     { bg: '#e0e7ff', border: '#6366f1', text: '#3730a3' },
   especial13:   { bg: '#1a1a2e', border: '#6b21a8', text: '#e879f9' },
-  especial56:   { bg: '#7c2d12', border: '#f97316', text: '#fed7aa' },
+  especial56:   { bg: '#1a1a2e', border: '#f97316', text: '#fed7aa' },
   presidencial: { bg: '#f0fdf4', border: '#16a34a', text: '#14532d' },
 };
 
@@ -171,10 +171,10 @@ Respondé la pregunta que aparece. Si acertás: avanzás 3 casilleros. Si errás
 Mala suerte política. Retrocedés 5 casilleros.
 
 ### ☠️ Casillero 56 — Bulrichización
-Cambiás de ideología repentinamente y quedás a trasmano con los valores de tu partido. Debés volver al inicio (casillero 0). Si hay un partido libre, podés elegir uno nuevo.
+Cambiás de ideología repentinamente y quedás a trasmano con los valores de tu partido. Sufrís un gran retroceso...pero ya estás acostumbrado, ya estuviste en más de 10 partidos 🤷🏻‍♀️
 
 ### 🏛️ Casillero 99 — Elecciones Presidenciales
-Sacás una Tarjeta de Elección Final. Si ganás, ¡sos Presidente! Si hay Ballotage, esperás un turno y volvés a intentar. Si perdés, retrocedés.
+Sacás una Tarjeta de Elección Final. Si ganás, ¡Sos Presidente! Si hay Ballotage, esperás un turno y volvés a intentar. Si perdés, retrocedés.
 
 ## Tarjetas de Salvación
 Cada jugador recibe una al inicio. Se usa **una sola vez** para neutralizar ciertos Castigos específicos (indicado en la tarjeta).

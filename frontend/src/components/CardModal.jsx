@@ -13,7 +13,7 @@ const TYPE_STYLES = {
 };
 
 // ─── Question Card ─────────────────────────────────────────────────────────────
-function QuestionCard({ card, playerId, pending, isActivePlayer, onAnswer }) {
+function QuestionCard({ card, playerId, pending, isActivePlayer, playerName, onAnswer }) {
   const [selected, setSelected]   = useState(null);
   const [revealed, setRevealed]   = useState(false);
   const style = TYPE_STYLES.pregunta;
@@ -262,6 +262,7 @@ export default function CardModal({
             playerId={playerId}
             pending={pending}
             isActivePlayer={isActivePlayer}
+            playerName={playerName}
             onAnswer={onAnswer}
           />
         : <StandardCard

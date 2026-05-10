@@ -63,22 +63,27 @@ export default function GameScreen({ roomState, playerId, send }) {
   // ── Veto/Salvacion countdown ───────────────────────────────────────────────
   useEffect(() => {
     const pt = pending?.type;
-    if (pt==='waiting_veto' || pt==='waiting_salvacion') {
+    if (pt === 'waiting_veto' || pt === 'waiting_salvacion') {
       const exp = pending.expires_at;
       if (!exp) return;
       if (timerRef.current) clearInterval(timerRef.current);
       const tick = () => {
-        const rem = Math.ceil(exp - Date.now()/1000);
-        setTimer(Math.max(0,rem));
-        if (rem<=0) { clearInterval(timerRef.current); timerRef.current=null; }
+        const rem = Math.ceil(exp - Date.now() / 1000);
+        setTimer(Math.max(0, rem));
+        if (rem <= 0) { clearInterval(timerRef.current); timerRef.current = null; }
       };
       tick();
       timerRef.current = setInterval(tick, 500);
     } else {
-      if (timerRef.current) { clearInterval(timerRef.current); timerRef.current=null; }
+      if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
       setTimer(null);
     }
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
   }, [pending?.type, pending?.expires_at]);
 
   // ── Handle pending ─────────────────────────────────────────────────────────
@@ -225,7 +230,6 @@ export default function GameScreen({ roomState, playerId, send }) {
     pending?.can_use_salvacion &&
     !myState?.salvacion_used  
   );
-  console.log('pending:', pending, 'canSalvacion:', canSalvacion, 'myState:', myState?.salvacion_used);
 
   const canVeto = (
     pendingType==='waiting_veto' &&

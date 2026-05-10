@@ -1,4 +1,4 @@
-# 🏛️ ¡A la Presidencia!
+# 🏛️ ¡A 100 pasos de la Rosada!
 
 Juego de mesa político argentino, versión web multijugador en tiempo real.
 

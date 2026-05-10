@@ -238,15 +238,15 @@
     { "id": "SI7", "texto": "¡Saque una Tarjeta de Premio y siga sus instrucciones!", "efecto": "saca_premio" },
     { "id": "SI8", "texto": "¡Saque una Tarjeta de Premio y siga sus instrucciones!", "efecto": "saca_premio" },
     { "id": "SI9", "texto": "¡Saque una Tarjeta de Premio y siga sus instrucciones!", "efecto": "saca_premio" },
-    { "id": "SI10", "texto": "UH QUE MALA SUERTE!! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
-    { "id": "SI11", "texto": "UH QUE MALA SUERTE!! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
-    { "id": "SI12", "texto": "UH QUE MALA SUERTE!! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
+    { "id": "SI10", "texto": "UH QUE MALA SUERTE! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
+    { "id": "SI11", "texto": "UH QUE MALA SUERTE! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
+    { "id": "SI12", "texto": "UH QUE MALA SUERTE! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
     { "id": "SI13", "texto": "¡Gana las elecciones! Pero descubren el fraude.", "efecto": "retrocede", "cantidad": 5 },
     { "id": "SI14", "texto": "A último momento se baja de las elecciones por un arreglo turbio con aliados.", "efecto": "retrocede", "cantidad": 5 },
     { "id": "SI15", "texto": "Faltó presupuesto para la campaña. Termina atrás de un grupo vecinal.", "efecto": "retrocede", "cantidad": 5 },
     { "id": "SI16", "texto": "PROBLEMAS EN LA CAMPAÑA. NO AVANZA. (Espera próximo turno)", "efecto": "pierde_turno" },
-    { "id": "SI17", "texto": "UH QUE MALA SUERTE!! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
-    { "id": "SI18", "texto": "UH QUE MALA SUERTE!! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" }
+    { "id": "SI17", "texto": "UH QUE MALA SUERTE! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" },
+    { "id": "SI18", "texto": "UH QUE MALA SUERTE! Saque una Tarjeta de Castigo y siga sus instrucciones.", "efecto": "saca_castigo" }
   ],
   "preguntas": [
     {
@@ -319,7 +319,7 @@
       "id": "PQ12",
       "pregunta": "¿Quién dijo durante un acto \"A vos no te va tan mal gordito\"?",
       "opciones": ["Néstor Kirchner", "Raúl Alfonsín", "Carlos Menem"],
-      "correcta": 2
+      "correcta": 1
     },
     {
       "id": "PQ13",

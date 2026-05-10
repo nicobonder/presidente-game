@@ -60,6 +60,21 @@ def start_timer(room_id: str, callback):
 
     _pending_timers[room_id] = asyncio.create_task(_run())
 
+def start_election_timer(room_id: str, callback):
+    """Start 3-second countdown for election cards."""
+    if room_id in _pending_timers:
+        _pending_timers[room_id].cancel()
+
+    async def _run():
+        try:
+            await asyncio.sleep(3)
+            log.info("election timer expired for room %s", room_id)
+            await callback()
+        except asyncio.CancelledError:
+            log.debug("election timer cancelled for room %s", room_id)
+
+    _pending_timers[room_id] = asyncio.create_task(_run())
+
 
 def cancel_timer(room_id: str):
     task = _pending_timers.pop(room_id, None)

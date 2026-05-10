@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { SPIRAL_COORDS, SQUARE_COLORS, SQUARE_TYPE, PARTIES, getSpiralBorderColor } from '../data/boardConfig';
 
 const CELL_SIZE = 64;
@@ -20,6 +20,14 @@ const SQUARE_LABELS = {
 export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick }) {
   // Build grid: squareNum → { row, col }
   const coords = SPIRAL_COORDS;
+
+  // n el browser abrí la consola y fijate qué coordenadas tienen esos casilleros. Deberían coincidir visualmente con dónde están los íconos de elecciones/preguntas en el tablero.
+  // Si no coinciden, el problema está en buildSpiralCoords. La espiral puede estar girando en dirección opuesta o empezando desde otra esquina.
+  useEffect(() => {
+    console.log('Casillero 67:', coords[67]);
+    console.log('Casillero 52:', coords[52]);
+    console.log('Casillero 47:', coords[47]);
+  }, []);
 
   // Build reverse: { row_col: squareNum }
   const gridToSquare = useMemo(() => {
@@ -145,21 +153,8 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
       boxSizing: 'border-box',
       boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
     }}>
-      {/* Legend */}
+      {/* Leyendas encima del tablero */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 10, flexWrap: 'wrap', padding: '0 4px' }}>
-        <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600 }}>Vueltas:</span>
-        {[
-          { color: '#3b82f6', label: '1ª vuelta' },
-          { color: '#e71e49', label: '2ª vuelta' },
-          { color: '#9bf50b', label: '3ª vuelta' },
-          { color: '#ec4899', label: '4ª vuelta' },
-          { color: '#ebde28', label: '5ª vuelta' },
-        ].map(({ color, label }) => (
-          <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#94a3b8' }}>
-            <span style={{ width: 12, height: 12, borderRadius: 3, background: color, display: 'inline-block' }} />
-            {label}
-          </span>
-        ))}
         <span style={{ fontSize: 11, color: '#94a3b8', marginLeft: 8, fontWeight: 600 }}>Casilleros:</span>
         {[
           { color: '#eab308', label: '⭐ Premio' },
