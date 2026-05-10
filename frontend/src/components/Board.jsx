@@ -120,17 +120,28 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
                   stroke={p.id === currentPlayerId ? '#fbbf24' : 'white'}
                   strokeWidth={p.id === currentPlayerId ? 3 : 1.5}
                 />
-                <text
-                  x={x + CELL_SIZE / 2 + offX}
-                  y={y + CELL_SIZE - offY + 1}
-                  fontSize={8}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fill="white"
-                  fontWeight="bold"
-                >
-                  {party?.short?.[0] || '?'}
-                </text>
+                {party?.logo ? (
+                  <image
+                    href={party.logo}
+                    x={x + CELL_SIZE / 2 + offX - 8}
+                    y={y + CELL_SIZE - offY - 8}
+                    width={16}
+                    height={16}
+                    preserveAspectRatio="xMidYMid slice"
+                  />
+                ) : (
+                  <text
+                    x={x + CELL_SIZE / 2 + offX}
+                    y={y + CELL_SIZE - offY + 1}
+                    fontSize={8}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fill="white"
+                    fontWeight="bold"
+                  >
+                    {party?.short?.[0] || '?'}
+                  </text>
+                )}
               </g>
             );
           })}

@@ -115,7 +115,7 @@ function StandardCard({ card, cardType, playerParty, playerName, isActivePlayer,
       <CardHeader style={style} />
       {playerParty && card.partido && !card.partido['todos'] && (
         <div style={{ fontSize: 11, color: '#64748b', marginBottom: 6 }}>
-          {PARTIES[playerParty]?.emoji} {PARTIES[playerParty]?.name}
+          {PARTIES[playerParty]?.logo} {PARTIES[playerParty]?.name}
         </div>
       )}
       <p style={{ fontSize: 14, marginBottom: 14, color: '#1e293b', lineHeight: 1.6, fontWeight: 500 }}>
@@ -137,7 +137,7 @@ function StandardCard({ card, cardType, playerParty, playerName, isActivePlayer,
           {rivals.map(r => (
             <button key={r.id} onClick={() => onConfirm({ action: 'choose_rival', rival_id: r.id, cantidad: card.cantidad })}
               style={actionBtn(PARTIES[r.party]?.color || '#666')}>
-              {PARTIES[r.party]?.emoji} {r.name}
+              {PARTIES[r.party]?.logo} {r.name}
             </button>
           ))}
         </div>

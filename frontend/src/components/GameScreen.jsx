@@ -278,7 +278,7 @@ export default function GameScreen({ roomState, playerId, send }) {
                 ¡{gp[isWinner]?.name} ES PRESIDENTE!
               </div>
               <div style={{fontSize:13,color:'#44403c',marginTop:4}}>
-                {PARTIES[gp[isWinner]?.party]?.emoji} {PARTIES[gp[isWinner]?.party]?.name}
+                {PARTIES[gp[isWinner]?.party]?.logo} {PARTIES[gp[isWinner]?.party]?.name}
               </div>
             </div>
           )}
@@ -319,7 +319,14 @@ export default function GameScreen({ roomState, playerId, send }) {
                     background:party?.color||'#666',
                     display:'flex',alignItems:'center',justifyContent:'center',
                     fontSize:16,border:isCurrent?'3px solid #fbbf24':'2px solid transparent',
-                  }}>{party?.emoji}</div>
+                    overflow:'hidden'
+                  }}>
+                    {party?.logo ? (
+                      <img src={party.logo} alt={party.short} style={{width:20,height:20,borderRadius:'50%'}} />
+                    ) : (
+                      <span style={{color:'white',fontWeight:800}}>{party?.short?.[0] || '?'}</span>
+                    )}
+                  </div>
                   <div style={{flex:1}}>
                     <div style={{color:isCurrent?'#fbbf24':'white',fontWeight:600,fontSize:13}}>
                       {p.name}{pid===playerId?' (vos)':''}{isCurrent?' ← turno':''}

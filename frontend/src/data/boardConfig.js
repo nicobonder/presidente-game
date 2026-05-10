@@ -84,6 +84,12 @@ export function getSpiralBorderColor(squareNum) {
   return SPIRAL_TURN_COLORS[getSpiralTurn(squareNum)];
 }
 
+// Logos for parties
+import PJLogo from '../Assets/PJ_Logo.png';
+import UCRRLogo from '../Assets/UCRR_Logo.png';
+import RPDLogo from '../Assets/RPD_Logo.png';
+import RPILogo from '../Assets/RPI_Logo.png';
+
 export const PARTIES = {
   PJ: {
     id: 'PJ',
@@ -91,7 +97,7 @@ export const PARTIES = {
     short: 'PJ',
     color: '#1a6fc4',
     bgColor: '#dbeafe',
-    emoji: '✌️',
+    logo: PJLogo,
   },
   UCRR: {
     id: 'UCRR',
@@ -99,7 +105,7 @@ export const PARTIES = {
     short: 'UCRR',
     color: '#dc2626',
     bgColor: '#fee2e2',
-    emoji: '🎩',
+    logo: UCRRLogo,
   },
   RPD: {
     id: 'RPD',
@@ -107,7 +113,7 @@ export const PARTIES = {
     short: 'RPD',
     color: '#7c3aed',
     bgColor: '#ede9fe',
-    emoji: '🦍',
+    logo: RPDLogo,
   },
   RPI: {
     id: 'RPI',
@@ -115,7 +121,7 @@ export const PARTIES = {
     short: 'RPI',
     color: '#dc2626',
     bgColor: '#fef2f2',
-    emoji: '🛠️',
+    logo: RPILogo,
   },
 };
 

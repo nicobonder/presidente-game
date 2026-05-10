@@ -45,9 +45,15 @@ export default function Lobby({ roomState, playerId, onSelectParty, onStartGame 
               width: 36, height: 36, borderRadius: '50%',
               background: p.party ? PARTIES[p.party]?.color : '#374151',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 18, flexShrink: 0,
+              fontSize: 18, flexShrink: 0, overflow: 'hidden'
             }}>
-              {p.party ? PARTIES[p.party]?.emoji : '👤'}
+              {p.party ? (
+                PARTIES[p.party]?.logo ? (
+                  <img src={PARTIES[p.party].logo} alt={PARTIES[p.party].short} style={{width:22,height:22,borderRadius:'50%'}} />
+                ) : (
+                  <span style={{color:'white',fontWeight:700}}>{PARTIES[p.party]?.short?.[0]}</span>
+                )
+              ) : '👤'}
             </div>
             <div>
               <div style={{ color: 'white', fontWeight: 600, fontSize: 14 }}>
@@ -86,7 +92,11 @@ export default function Lobby({ roomState, playerId, onSelectParty, onStartGame 
                     transition: 'all 0.2s',
                     opacity: taken ? 0.5 : 1,
                   }}>
-                  <div style={{ fontSize: 24, marginBottom: 4 }}>{party.emoji}</div>
+                  <div style={{ fontSize: 24, marginBottom: 4 }}>
+                    {party.logo ? (
+                      <img src={party.logo} alt={party.short} style={{width:36,height:36,borderRadius:6}} />
+                    ) : party.emoji}
+                  </div>
                   <div style={{ fontWeight: 700, fontSize: 13 }}>{party.short}</div>
                   <div style={{ fontSize: 11, opacity: 0.8 }}>{party.name}</div>
                   {taken && <div style={{ fontSize: 10, color: '#6b7280', marginTop: 4 }}>Ocupado</div>}
