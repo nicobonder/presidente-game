@@ -277,8 +277,11 @@ export default function GameScreen({ roomState, playerId, send }) {
               <div style={{fontWeight:900,fontSize:20,color:'#1c1917',marginTop:8}}>
                 ¡{gp[isWinner]?.name} ES PRESIDENTE!
               </div>
-              <div style={{fontSize:13,color:'#44403c',marginTop:4}}>
-                {PARTIES[gp[isWinner]?.party]?.logo} {PARTIES[gp[isWinner]?.party]?.name}
+              <div style={{fontSize:13,color:'#44403c',marginTop:4,display:'flex',alignItems:'center',gap:8,justifyContent:'center'}}>
+                {PARTIES[gp[isWinner]?.party]?.logo ? (
+                  <img src={PARTIES[gp[isWinner]?.party].logo} alt={PARTIES[gp[isWinner]?.party]?.short} style={{width:20,height:20,borderRadius:'50%'}} />
+                ) : null}
+                <span>{PARTIES[gp[isWinner]?.party]?.name}</span>
               </div>
             </div>
           )}
@@ -315,14 +318,14 @@ export default function GameScreen({ roomState, playerId, send }) {
                   opacity:p.loses_turn?0.5:1,
                 }}>
                   <div style={{
-                    width:32,height:32,borderRadius:'50%',
+                    width:45,height:45,borderRadius:'50%',
                     background:party?.color||'#666',
                     display:'flex',alignItems:'center',justifyContent:'center',
                     fontSize:16,border:isCurrent?'3px solid #fbbf24':'2px solid transparent',
                     overflow:'hidden'
                   }}>
                     {party?.logo ? (
-                      <img src={party.logo} alt={party.short} style={{width:20,height:20,borderRadius:'50%'}} />
+                      <img src={party.logo} alt={party.short} style={{width:42,height:42,borderRadius:'50%'}} />
                     ) : (
                       <span style={{color:'white',fontWeight:800}}>{party?.short?.[0] || '?'}</span>
                     )}
