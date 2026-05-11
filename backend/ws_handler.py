@@ -136,20 +136,10 @@ async def _handle(ws: WebSocket, room_id: str, player_id: str, msg: dict):
                 cancel_timer(room_id)
 
             # Auto-apply election cards after 3 seconds (no confirm button)
-            if p.get("type") == "show_card_no_confirm":
-                import asyncio, copy
-                from game_logic import apply_effect_and_check_chain
-                await asyncio.sleep(3)
-                async with aiosqlite.connect(DB_PATH) as db2:
-                    state2 = await get_room(db2, room_id)
-                    if state2 and (state2.get("pending") or {}).get("type") == "show_card_no_confirm":
-                        pid2   = p.get("player_id")
-                        eff2   = p.get("effect", {})
-                        state2 = apply_effect_and_check_chain(copy.deepcopy(state2), pid2, eff2, [])
-                        await save_room(db2, room_id, state2)
-                        await manager.broadcast(room_id, {
-                            "type": "room_state", "state": state2, "events": []
-                        })
+            # Election cards auto-apply is handled by the election timer
+            # (start_election_timer -> on_election_expire -> _auto_apply_election).
+            # Avoid doing an inline sleep here which would block message handling
+            # for this WebSocket and cause delayed processing when the game is busy.
 
         # ── chat ──────────────────────────────────────────────────────────────
         elif mtype == "chat":
