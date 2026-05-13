@@ -57,6 +57,8 @@ def start_timer(room_id: str, callback):
             await callback()
         except asyncio.CancelledError:
             log.debug("timer cancelled for room %s", room_id)
+        except Exception as e:
+            log.exception("timer callback error for room %s: %s", room_id, e)
 
     _pending_timers[room_id] = asyncio.create_task(_run())
 
@@ -67,11 +69,14 @@ def start_election_timer(room_id: str, callback):
 
     async def _run():
         try:
+            """Function that put to sleep the game for 3 seconds, then the card desapears"""
             await asyncio.sleep(3)
             log.info("election timer expired for room %s", room_id)
             await callback()
         except asyncio.CancelledError:
             log.debug("election timer cancelled for room %s", room_id)
+        except Exception as e:
+            log.exception("election timer callback error for room %s: %s", room_id, e)
 
     _pending_timers[room_id] = asyncio.create_task(_run())
 

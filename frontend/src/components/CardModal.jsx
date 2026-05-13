@@ -224,7 +224,6 @@ function getEffectLabel(card) {
     case 'avanza':            return `⬆️ AVANZÁ ${card.cantidad} CASILLERO${card.cantidad > 1 ? 'S' : ''}`;
     case 'retrocede':         return `⬇️ RETROCEDÉ ${card.cantidad} CASILLERO${card.cantidad > 1 ? 'S' : ''}`;
     case 'pierde_turno':      return '⏭️ PERDÉS EL PRÓXIMO TURNO';
-    case 'saca_avance':       return '🃏 SACÁ OTRA TARJETA DE AVANCE';
     case 'saca_premio':       return '⭐ SACÁ UNA TARJETA DE PREMIO';
     case 'saca_castigo':      return '💀 SACÁ UNA TARJETA DE CASTIGO';
     case 'rivales_retroceden':return `⬇️ TUS RIVALES RETROCEDEN ${card.cantidad} CASILLEROS`;
@@ -242,6 +241,7 @@ export default function CardModal({
   timer, canSalvacion, canVeto, pendingType,
   rivals, onAnswer, onConfirm,
   onUseSalvacion, onUseVeto, onChooseRival,
+  onClose,
 }) {
   if (!card) return null;
   const style = TYPE_STYLES[cardType] || TYPE_STYLES.avance;

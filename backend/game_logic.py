@@ -178,12 +178,12 @@ def set_pending_for_square(
     if landed_type == "especial13":
         new_pos = max(0, pos - 5)
         player["position"] = new_pos
-        state["log"].append(f"🔲 Casillero 13 — {player['name']} retrocede 5 → {new_pos}")
+        state["log"].append(f"⚰️ Casillero 13 — {player['name']} retrocede 5 → {new_pos}")
         state["pending"] = {
             "type":      "special_effect",
             "player_id": player_id,
             "message":   f"¡Casillero maldito! {player['name']} retrocede 5 casilleros.",
-            "emoji":     "🔲",
+            "emoji":     "⚰️",
         }
 
     elif landed_type == "especial56":

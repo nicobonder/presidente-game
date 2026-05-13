@@ -21,14 +21,6 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
   // Build grid: squareNum → { row, col }
   const coords = SPIRAL_COORDS;
 
-  // n el browser abrí la consola y fijate qué coordenadas tienen esos casilleros. Deberían coincidir visualmente con dónde están los íconos de elecciones/preguntas en el tablero.
-  // Si no coinciden, el problema está en buildSpiralCoords. La espiral puede estar girando en dirección opuesta o empezando desde otra esquina.
-  useEffect(() => {
-    console.log('Casillero 67:', coords[67]);
-    console.log('Casillero 52:', coords[52]);
-    console.log('Casillero 47:', coords[47]);
-  }, []);
-
   // Build reverse: { row_col: squareNum }
   const gridToSquare = useMemo(() => {
     const map = {};

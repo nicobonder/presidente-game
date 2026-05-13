@@ -20,6 +20,7 @@ export default function GameScreen({ roomState, playerId, send }) {
   const [timer, setTimer]             = useState(null);
   const timerRef             = useRef(null);
   const processedPendingRef  = useRef(null);
+  const diceIvRef = useRef(null);
 
   const gp              = roomState?.game_players || {};
   const turnOrder       = roomState?.turn_order || [];
@@ -141,17 +142,30 @@ export default function GameScreen({ roomState, playerId, send }) {
   }
 
   function animateDice(value, cb) {
+    if (diceAnim) return; // avoid double animations
     setDiceAnim(true); setDiceVisible(true);
     let count=0;
+    if (diceIvRef.current) { clearInterval(diceIvRef.current); diceIvRef.current = null; }
     const iv = setInterval(() => {
       setDiceValue(Math.ceil(Math.random()*6));
       if (++count > 15) {
         clearInterval(iv);
+        diceIvRef.current = null;
         setDiceValue(value); setDiceAnim(false);
         setTimeout(() => { cb(); setTimeout(()=>setDiceVisible(false),600); }, 2500);
       }
     }, 80);
+    diceIvRef.current = iv;
   }
+
+  useEffect(() => {
+    return () => {
+      if (diceIvRef.current) {
+        clearInterval(diceIvRef.current);
+        diceIvRef.current = null;
+      }
+    };
+  }, []);
 
   function drawAndSendCard(squareType) {
     const typeMap = {

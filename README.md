@@ -103,7 +103,7 @@ presidente-game/
 | 16, 30, 44, 70, 85 | 💀 Castigo | Tarjeta de Castigo |
 | 19, 35, 52, 67, 83 | 🗳️ Elecciones | Tarjeta de Elecciones |
 | 10, 25, 47, 60, 75 | ❓ Pregunta | Responder pregunta (+3/-3) |
-| 13 | 🔲 Especial | Retrocede 5 |
+| 13 | ⚰️ Especial | Retrocede 5 |
 | 56 | ☠️ Bulrichización | Vuelve al inicio |
 | 99 | 🏛️ Presidencial | Elecciones Presidenciales |
 

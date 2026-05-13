@@ -7,7 +7,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from config import DB_PATH, get_logger
 from connections import manager, start_timer, cancel_timer, start_election_timer
 from db import get_room, save_room
-from game_logic import process_action, build_game_players, new_room_state
+from game_logic import process_action, build_game_players, new_room_state, apply_effect_and_check_chain
 
 log    = get_logger("ws_handler")
 router = APIRouter()
@@ -168,7 +168,6 @@ async def _auto_apply(room_id: str):
         effect = p.get("effect", {})
         log.info("auto_apply: applying effect %s for player %s", effect, pid)
 
-        from game_logic import apply_effect_and_check_chain
         state = copy.deepcopy(state)
         state = apply_effect_and_check_chain(state, pid, effect, [])
         await save_room(db, room_id, state)

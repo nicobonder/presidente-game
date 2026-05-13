@@ -173,7 +173,7 @@ Levantá una Tarjeta de Elecciones y seguí sus instrucciones.
 ### ❓ Pregunta
 Respondé la pregunta que aparece. Si acertás: avanzás 3 casilleros. Si errás: retrocedés 3 casilleros.
 
-### 🔲 Casillero 13
+### ⚰️ Casillero 13
 Mala suerte política. Retrocedés 5 casilleros.
 
 ### ☠️ Casillero 56 — Bulrichización

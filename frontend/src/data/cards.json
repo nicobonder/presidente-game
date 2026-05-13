@@ -17,7 +17,7 @@
         "RPI": "Gana el voto de mujeres pro-aborto.",
         "RPD": "Bajan los índices de delincuencia."
       },
-      "efecto": "saca_avance"
+      "efecto": "avanza"
     },
     {
       "id": "PR2",
@@ -27,7 +27,7 @@
         "RPI": "Su plan de gobierno recibe el apoyo de intelectuales.",
         "RPD": "Despegarse de viejos dinosaurios es bien visto."
       },
-      "efecto": "saca_avance"
+      "efecto": "avanza"
     },
     {
       "id": "PR3",
@@ -37,7 +37,7 @@
         "RPI": "Es visto como una alternativa para renovar la política.",
         "RPD": "Su look gana el voto de las jovencitas."
       },
-      "efecto": "saca_avance"
+      "efecto": "avanza"
     },
     {
       "id": "PR4",

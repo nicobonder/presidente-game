@@ -116,9 +116,6 @@ export function resolveCardEffect(card, playerParty) {
     case 'pierde_turno':
       result.losesTurn = true;
       break;
-    case 'saca_avance':
-      result.drawNext = 'avance';
-      break;
     case 'saca_premio':
       result.drawNext = 'premio';
       break;
