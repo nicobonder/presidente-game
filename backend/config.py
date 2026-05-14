@@ -20,6 +20,7 @@ def get_logger(name: str) -> logging.Logger:
 # ─── Constants ────────────────────────────────────────────────────────────────
 DB_PATH = "game.db"
 VETO_SALVACION_SECONDS = 10
+VETO_PREMIO_SECONDS = 4        # rival has 4s to veto a Premio card
 MAX_PLAYERS = 4
 ROOM_TTL_SECONDS = 3600  # rooms expire after 1 hour of inactivity
 BULRICHIZACION_TARGET = 24 # Number to where the player must comeback if they move to number 56

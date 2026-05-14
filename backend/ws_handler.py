@@ -6,6 +6,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 from config import DB_PATH, get_logger
 from connections import manager, start_timer, cancel_timer, start_election_timer
+from config import VETO_PREMIO_SECONDS
 from db import get_room, save_room
 from game_logic import process_action, build_game_players, new_room_state, apply_effect_and_check_chain
 
@@ -126,7 +127,8 @@ async def _handle(ws: WebSocket, room_id: str, player_id: str, msg: dict):
                 async def on_timer_expire():
                     await _auto_apply(room_id)
                 cancel_timer(room_id)
-                start_timer(room_id, on_timer_expire)
+                timer_secs = VETO_PREMIO_SECONDS if p.get("type") == "waiting_veto" else None
+                start_timer(room_id, on_timer_expire, **({"seconds": timer_secs} if timer_secs else {}))
             elif p.get("type") == "show_card_no_confirm":
                 async def on_election_expire():
                     await _auto_apply_election(room_id, p.get("player_id"), p.get("effect", {}))

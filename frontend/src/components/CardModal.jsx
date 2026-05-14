@@ -114,8 +114,11 @@ function StandardCard({ card, cardType, playerParty, playerName, isActivePlayer,
     <div style={cardContainer(style)}>
       <CardHeader style={style} />
       {playerParty && card.partido && !card.partido['todos'] && (
-        <div style={{ fontSize: 11, color: '#64748b', marginBottom: 6 }}>
-          {PARTIES[playerParty]?.logo} {PARTIES[playerParty]?.name}
+        <div style={{ fontSize: 11, color: '#64748b', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
+          {PARTIES[playerParty]?.logo && (
+            <img src={PARTIES[playerParty].logo} alt={PARTIES[playerParty]?.short} style={{ width: 16, height: 16, borderRadius: '50%' }} />
+          )}
+          {PARTIES[playerParty]?.name}
         </div>
       )}
       <p style={{ fontSize: 14, marginBottom: 14, color: '#1e293b', lineHeight: 1.6, fontWeight: 500 }}>
@@ -136,8 +139,12 @@ function StandardCard({ card, cardType, playerParty, playerName, isActivePlayer,
           </p>
           {rivals.map(r => (
             <button key={r.id} onClick={() => onConfirm({ action: 'choose_rival', rival_id: r.id, cantidad: card.cantidad })}
-              style={actionBtn(PARTIES[r.party]?.color || '#666')}>
-              {PARTIES[r.party]?.logo} {r.name}
+              style={{ ...actionBtn(PARTIES[r.party]?.color || '#666'), display: 'flex', alignItems: 'center', gap: 8 }}>
+              {PARTIES[r.party]?.logo
+                ? <img src={PARTIES[r.party].logo} alt={PARTIES[r.party]?.short} style={{ width: 22, height: 22, borderRadius: '50%' }} />
+                : null
+              }
+              {r.name}
             </button>
           ))}
         </div>
@@ -159,12 +166,19 @@ function StandardCard({ card, cardType, playerParty, playerName, isActivePlayer,
         card.efecto !== 'elige_rival_retrocede' &&
         cardType !== 'elecciones' &&
         cardType !== 'eleccion_final' &&
+        cardType !== 'premio' &&
         pendingType !== 'show_card_no_confirm' && (
         <button onClick={() => onConfirm()} style={actionBtn('#0f172a')}>
           {cardType === 'castigo'
             ? (timer > 0 ? `Aceptar castigo (${timer}s)` : 'Aceptar castigo')
             : 'Aceptar'}
         </button>
+      )}
+
+      {isActivePlayer && cardType === 'premio' && pendingType === 'waiting_veto' && (
+        <p style={{ color: '#1e3a8a', fontSize: 13, textAlign: 'center', marginTop: 8, fontWeight: 600 }}>
+          {timer > 0 ? `⭐ Premio se aplica en ${timer}s…` : '⭐ Aplicando premio…'}
+        </p>
       )}
 
       {pendingType === 'show_card_no_confirm' && (
@@ -175,7 +189,9 @@ function StandardCard({ card, cardType, playerParty, playerName, isActivePlayer,
 
       {!isActivePlayer && !canVeto && pendingType !== 'show_card_no_confirm' && (
         <p style={{ color: '#64748b', fontSize: 12, textAlign: 'center', marginTop: 8 }}>
-          {timer !== null ? `Tenés ${timer}s para usar el Veto` : 'Observando...'}
+          {pendingType === 'waiting_veto'
+            ? (timer !== null && timer > 0 ? `Tenés ${timer}s para usar el Veto` : 'Tiempo agotado')
+            : 'Observando...'}
         </p>
       )}
     </div>

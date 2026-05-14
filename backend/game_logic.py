@@ -8,7 +8,7 @@ from typing import Any
 
 from config import (
     SQUARE_TYPE_MAP, ELECTION_SQUARES,
-    VETO_SALVACION_SECONDS, BULRICHIZACION_TARGET, get_logger
+    VETO_SALVACION_SECONDS, VETO_PREMIO_SECONDS, BULRICHIZACION_TARGET, get_logger
 )
 
 log = get_logger("game_logic")
@@ -290,7 +290,7 @@ def process_action(
                 "card":       card,
                 "card_type":  card_type,
                 "effect":     effect,
-                "expires_at": time.time() + VETO_SALVACION_SECONDS,
+                "expires_at": time.time() + VETO_PREMIO_SECONDS,
             }
 
         else:

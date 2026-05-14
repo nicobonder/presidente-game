@@ -1,6 +1,6 @@
 import asyncio
 from fastapi import WebSocket
-from config import get_logger, VETO_SALVACION_SECONDS
+from config import get_logger, VETO_SALVACION_SECONDS, VETO_PREMIO_SECONDS
 
 log = get_logger("connections")
 
@@ -46,13 +46,13 @@ manager = ConnectionManager()
 _pending_timers: dict[str, asyncio.Task] = {}
 
 
-def start_timer(room_id: str, callback):
+def start_timer(room_id: str, callback, seconds: int = VETO_SALVACION_SECONDS):
     """Start a countdown; call callback() when it expires."""
     cancel_timer(room_id)
 
     async def _run():
         try:
-            await asyncio.sleep(VETO_SALVACION_SECONDS)
+            await asyncio.sleep(seconds)
             log.info("timer expired for room %s", room_id)
             await callback()
         except asyncio.CancelledError:
