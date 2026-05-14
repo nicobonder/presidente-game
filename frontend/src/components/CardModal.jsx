@@ -156,7 +156,7 @@ function StandardCard({ card, cardType, playerParty, playerName, isActivePlayer,
         </button>
       )}
 
-      {canVeto && (
+      {canVeto && !(cardType === 'premio' && isActivePlayer) && (
         <button onClick={onUseVeto} style={actionBtn('#dc2626')}>
           🚫 Usar VETO ABSOLUTO
         </button>

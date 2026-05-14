@@ -13,7 +13,7 @@ export default function GameScreen({ roomState, playerId, send }) {
   const [showHelp, setShowHelp]       = useState(false);
   const [diceValue, setDiceValue]     = useState(null);
   const [diceVisible, setDiceVisible] = useState(false);
-  const [diceAnim, setDiceAnim]       = useState(false);
+  const diceAnimRef                   = useRef(false);   // ref avoids stale-closure guard
   const [rolling, setRolling]         = useState(false);
   const [localDecks, setLocalDecks]   = useState(null);
   const [actionLog, setActionLog]     = useState([]);
@@ -142,8 +142,8 @@ export default function GameScreen({ roomState, playerId, send }) {
   }
 
   function animateDice(value, cb) {
-    if (diceAnim) return; // avoid double animations
-    setDiceAnim(true); setDiceVisible(true);
+    if (diceAnimRef.current) return; // avoid double animations
+    diceAnimRef.current = true; setDiceVisible(true);
     let count=0;
     if (diceIvRef.current) { clearInterval(diceIvRef.current); diceIvRef.current = null; }
     const iv = setInterval(() => {
@@ -151,7 +151,7 @@ export default function GameScreen({ roomState, playerId, send }) {
       if (++count > 15) {
         clearInterval(iv);
         diceIvRef.current = null;
-        setDiceValue(value); setDiceAnim(false);
+        setDiceValue(value); diceAnimRef.current = false;
         setTimeout(() => { cb(); setTimeout(()=>setDiceVisible(false),600); }, 2500);
       }
     }, 80);
@@ -389,24 +389,19 @@ export default function GameScreen({ roomState, playerId, send }) {
             </div>
           )}
 
-          {/* Roll button */}
-          {isMyTurn && !isWinner && !showCard && !showSpecial && !diceVisible && (
+          {/* Roll button — only show when there is no active pending to avoid re-appearance glitches */}
+          {isMyTurn && !isWinner && !showCard && !showSpecial && !diceVisible && !pending && (
             <div style={{background:'rgba(255,255,255,0.05)',borderRadius:12,padding:16,textAlign:'center'}}>
               <p style={{color:'#fbbf24',fontWeight:700,marginBottom:12,fontSize:14}}>¡Es tu turno!</p>
-              {!pending && (
-                <button onClick={handleRollDice} disabled={rolling} style={{
-                  padding:'12px 28px',borderRadius:10,width:'100%',
-                  background:rolling?'#374151':'linear-gradient(135deg,#6366f1,#8b5cf6)',
-                  color:'white',border:'none',fontWeight:800,fontSize:16,
-                  cursor:rolling?'not-allowed':'pointer',
-                  boxShadow:rolling?'none':'0 4px 20px rgba(99,102,241,0.4)',
-                }}>
-                  {rolling?'🎲 Tirando...':'🎲 Tirar dado'}
-                </button>
-              )}
-              {pending && (
-                <p style={{color:'#94a3b8',fontSize:13}}>Procesando...</p>
-              )}
+              <button onClick={handleRollDice} disabled={rolling} style={{
+                padding:'12px 28px',borderRadius:10,width:'100%',
+                background:rolling?'#374151':'linear-gradient(135deg,#6366f1,#8b5cf6)',
+                color:'white',border:'none',fontWeight:800,fontSize:16,
+                cursor:rolling?'not-allowed':'pointer',
+                boxShadow:rolling?'none':'0 4px 20px rgba(99,102,241,0.4)',
+              }}>
+                {rolling?'🎲 Tirando...':'🎲 Tirar dado'}
+              </button>
             </div>
           )}
 

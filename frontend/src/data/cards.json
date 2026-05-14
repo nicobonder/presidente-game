@@ -17,7 +17,8 @@
         "RPI": "Gana el voto de mujeres pro-aborto.",
         "RPD": "Bajan los índices de delincuencia."
       },
-      "efecto": "avanza"
+      "efecto": "avanza",
+      "cantidad": 3
     },
     {
       "id": "PR2",
@@ -27,7 +28,8 @@
         "RPI": "Su plan de gobierno recibe el apoyo de intelectuales.",
         "RPD": "Despegarse de viejos dinosaurios es bien visto."
       },
-      "efecto": "avanza"
+      "efecto": "avanza",
+      "cantidad": 3
     },
     {
       "id": "PR3",
@@ -37,7 +39,8 @@
         "RPI": "Es visto como una alternativa para renovar la política.",
         "RPD": "Su look gana el voto de las jovencitas."
       },
-      "efecto": "avanza"
+      "efecto": "avanza",
+      "cantidad": 3
     },
     {
       "id": "PR4",
@@ -344,6 +347,180 @@
       "pregunta": "¿Quién dijo \"Con la convertibilidad, habrá más de seis décadas de crecimiento y prosperidad en la Argentina\"?",
       "opciones": ["Carlos Menem", "Domingo Cavallo", "Javier Milei"],
       "correcta": 1
+    },
+    {
+      "id": "PQ17",
+      "pregunta": "¿Quiénes hicieron la música y la letra del himno nacional?",
+      "opciones": ["Carlos Gardel y Alfredo Le Pera", "Domingo French y Antonio Beruti", "Blas Parera y Vicente López y Planes"],
+      "correcta": 2
+    },
+    {
+      "id": "PQ18",
+      "pregunta": "¿Cómo se proclamó el grupo de militares que derrocó a Perón?",
+      "opciones": ["Comando de Reorganización Nacional", "Revolución Libertadora", "Movimiento Nacionalista Patriotico"],
+      "correcta": 1
+    },
+    {
+      "id": "PQ19",
+      "pregunta": "¿Cómo se llamó el golpe militar de 1976?",
+      "opciones": ["Proceso de Reorganización Nacional", "Revolución Argentina", "Movimiento por el Progreso Nacional"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ20",
+      "pregunta": "¿Quién fue el presidente durante la crisis de 2001?",
+      "opciones": ["Fernando de la Rúa", "Eduardo Duhalde", "Adolfo Rodríguez Saá"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ21",
+      "pregunta": "¿Quién derrocó a Illia en 1966?",
+      "opciones": ["Jorge Rafael Videla", "Arturo Frondizi", "Juan Carlos Onganía"],
+      "correcta": 2
+    },
+    {
+      "id": "PQ22",
+      "pregunta": "¿En qué año fue derrocado Arturo Umberto Illia?",
+      "opciones": ["1962", "1966", "1970"],
+      "correcta": 1
+    },
+    {
+      "id": "PQ23",
+      "pregunta": "¿En qué año fue derrocado Arturo Umberto Illia?",
+      "opciones": ["1962", "1966", "1970"],
+      "correcta": 1
+    },
+    {
+      "id": "PQ24",
+      "pregunta": "¿Quién ganó las elecciones presidenciales de marzo de 1973?",
+      "opciones": ["Domingo Perón", "Evita Perón", "Héctor J. Cámpora"],
+      "correcta": 2
+    },
+    {
+      "id": "PQ25",
+      "pregunta": "¿En qué año renunció Cámpora?",
+      "opciones": ["1974", "1973", "1975"],
+      "correcta": 1
+    },
+    {
+      "id": "PQ26",
+      "pregunta": "¿Quién fue el ministro de economía de Jorge Rafael Videla?",
+      "opciones": ["José A. Martínez de Hoz", "Álvaro Alsogaray", "Felipe Cavallo"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ27",
+      "pregunta": "¿Quién sucedió a Videla en la presidencia?",
+      "opciones": ["Roberto Eduardo Viola", "Leopoldo Fortunato Galtieri", "Carlos Menem"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ28",
+      "pregunta": "¿Cuál fue el lema de la campaña presidencial de Cámpora?",
+      "opciones": ["Cámpora al gobierno, Perón al poder", "Para el campo lo mejor es Campora", "Para que vuelva Perón vote Campora"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ29",
+      "pregunta": "¿Quién fue el vicepresidente de Raúl Alfonsín?",
+      "opciones": ["Víctor H. Martínez", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ30",
+      "pregunta": "¿Qué auto le obsequiaron a Menem y él se negó a devolver?",
+      "opciones": ["Ferrari Testarossa", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ31",
+      "pregunta": "¿Con qué partido se alió el radicalismo en las elecciones de 1999?",
+      "opciones": ["FREPASO", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ32",
+      "pregunta": "Ramón Puerta ocupaba un cargo que lo puso primero en la lista de sucesión detrás de De la Rúa, ¿cuál era dicho puesto?",
+      "opciones": ["Presidente provisional del Senado", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ33",
+      "pregunta": "¿En qué fecha asume como presidente Ramón Puerta?",
+      "opciones": ["21 de diciembre de 2001", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ34",
+      "pregunta": "¿Por cuántos días fue presidente Ramón Puerta?",
+      "opciones": ["1 día", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ35",
+      "pregunta": "¿Cuál fue la medida más importante que tomó Adolfo Rodríguez Saá como presidente?",
+      "opciones": ["El default de la deuda argentina", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ36",
+      "pregunta": "¿Quién sucedió en la presidencia a Adolfo Rodríguez Saá?",
+      "opciones": ["Eduardo Camaño", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ37",
+      "pregunta": "¿Cuál fue la primera mujer en llegar al puesto de presidente por el voto popular de forma directa?",
+      "opciones": ["Cristina Fernández de Kirchner", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ38",
+      "pregunta": "¿En qué década se convirtió en presidente Juan Manuel de Rosas?",
+      "opciones": ["Nunca fue presidente, fue gobernador de Buenos Aires", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ39",
+      "pregunta": "¿Quién ganó la batalla de Caseros?",
+      "opciones": ["Justo José de Urquiza", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ40",
+      "pregunta": "¿Cómo se llamaba el grupo militar que dirigían Domingo French y Antonio Luis Beruti?",
+      "opciones": ["La Legión Infernal", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ41",
+      "pregunta": "¿Quién fue el presidente de la junta designada por el cabildo del 25 de mayo?",
+      "opciones": ["Cornelio Saavedra", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ42",
+      "pregunta": "¿Por qué Balcarce tiene una calle?",
+      "opciones": ["Por la batalla de Suipacha", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ43",
+      "pregunta": "¿Qué general comandó el éxodo jujeño?",
+      "opciones": ["Manuel Belgrano", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ44",
+      "pregunta": "¿Por qué el 20 de junio se celebra el día de la Bandera?",
+      "opciones": ["Por el fallecimiento de Manuel Belgrano", "Opción B", "Opción C"],
+      "correcta": 0
+    },
+    {
+      "id": "PQ45",
+      "pregunta": "¿Quién encabezó el primer golpe militar en Argentina?",
+      "opciones": ["José Félix Uriburu", "Opción B", "Opción C"],
+      "correcta": 0
     }
   ]
 }
