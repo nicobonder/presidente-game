@@ -36,6 +36,9 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 El backend queda en: `http://localhost:8000`
 
+# Para salir del virtual enviroment:
+deactivate
+
 ### 2. Frontend (React)
 
 ```bash

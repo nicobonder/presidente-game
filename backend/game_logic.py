@@ -189,11 +189,11 @@ def set_pending_for_square(
     elif landed_type == "especial56":
         new_pos = min(player["position"], BULRICHIZACION_TARGET)  # retrocede hasta 24 (Hardcoded en config.py)
         player["position"] = new_pos
-        state["log"].append(f"☠️ Bulrichización — {player['name']} retrocede hasta casillero 24")
+        state["log"].append(f"☠️ Bulrichización — {player['name']} retrocede hasta casillero {BULRICHIZACION_TARGET}")
         state["pending"] = {
             "type":      "special_effect",
             "player_id": player_id,
-            "message":   f"¡Bulrichización! {player['name']} cambia de ideología y retrocede hasta el casillero 24.",
+            "message":   f"¡Bulrichización! {player['name']} cambia de ideología y retrocede hasta el casillero {BULRICHIZACION_TARGET}.",
             "emoji":     "☠️",
         }
 

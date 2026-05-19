@@ -483,44 +483,44 @@
     {
       "id": "PQ39",
       "pregunta": "¿Quién ganó la batalla de Caseros?",
-      "opciones": ["Justo José de Urquiza", "Opción B", "Opción C"],
-      "correcta": 0
+      "opciones": [" Juan Manuel de Rosas", "Justo José de Urquiza", "Chacho Peñaloza"],
+      "correcta": 1
     },
     {
       "id": "PQ40",
       "pregunta": "¿Cómo se llamaba el grupo militar que dirigían Domingo French y Antonio Luis Beruti?",
-      "opciones": ["La Legión Infernal", "Opción B", "Opción C"],
-      "correcta": 0
+      "opciones": ["Patria o Muerte", "Los Infernales de Mayo", "La Legión Infernal"],
+      "correcta": 2
     },
     {
       "id": "PQ41",
       "pregunta": "¿Quién fue el presidente de la junta designada por el cabildo del 25 de mayo?",
-      "opciones": ["Cornelio Saavedra", "Opción B", "Opción C"],
+      "opciones": ["Cornelio Saavedra", "José de San Martín", "Manuel Belgrano"],
       "correcta": 0
     },
     {
       "id": "PQ42",
-      "pregunta": "¿Por qué Balcarce tiene una calle?",
-      "opciones": ["Por la batalla de Suipacha", "Opción B", "Opción C"],
+      "pregunta": "¿Por qué Antonio Balcarce tiene una calle?",
+      "opciones": ["Por la batalla de Suipacha (1810)", "Por la batalla de Caseros (1852)", "Por la batalla de La Tablada (1820)"],
       "correcta": 0
     },
     {
       "id": "PQ43",
       "pregunta": "¿Qué general comandó el éxodo jujeño?",
-      "opciones": ["Manuel Belgrano", "Opción B", "Opción C"],
-      "correcta": 0
+      "opciones": ["Martín Miguel de Güemes", "Manuel Belgrano", "Cornelio Saavedra"],
+      "correcta": 1
     },
     {
       "id": "PQ44",
       "pregunta": "¿Por qué el 20 de junio se celebra el día de la Bandera?",
-      "opciones": ["Por el fallecimiento de Manuel Belgrano", "Opción B", "Opción C"],
-      "correcta": 0
+      "opciones": ["Creación del Monumento en Rosario", "Por el fallecimiento de Manuel Belgrano",  "En honor a la primera vez que se izó en batalla"],
+      "correcta": 1
     },
     {
       "id": "PQ45",
       "pregunta": "¿Quién encabezó el primer golpe militar en Argentina?",
-      "opciones": ["José Félix Uriburu", "Opción B", "Opción C"],
-      "correcta": 0
+      "opciones": ["Julio Argentino Roca", "Juan Manuel de Rosas", "José Félix Uriburu"],
+      "correcta": 2
     }
   ]
 }

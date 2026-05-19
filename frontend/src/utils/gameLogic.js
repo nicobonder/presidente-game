@@ -110,7 +110,9 @@ export function resolveCardEffect(card, playerParty) {
     case 'avanza':
       result.positionDelta = card.cantidad;
       break;
-    F
+    case 'retrocede':
+      result.positionDelta = -(card.cantidad);
+      break;
     case 'pierde_turno':
       result.losesTurn = true;
       break;
