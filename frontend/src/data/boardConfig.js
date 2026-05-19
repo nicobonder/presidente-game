@@ -1,14 +1,17 @@
-// Tablero en espiral: 100 casilleros (0 al 99)
-// El jugador empieza en 0 y tiene que llegar al 99 (Elecciones Presidenciales)
+// Tablero en espiral rectangular: 101 casilleros (0 al 100)
+// Grilla 20 columnas × 10 filas — espiral horaria desde esquina superior-izquierda
+// El jugador empieza en 0 (arriba-izquierda) y tiene que llegar al 99 (Elecciones Presidenciales)
+// El casillero 100 muestra La Casa Rosada (destino final visual)
 //
-// Casilleros especiales (verificado ±3 sin colisión con preguntas):
-//   PREMIOS:    8, 22, 38, 64, 78
-//   CASTIGOS:   16, 30, 44, 70, 85
-//   ELECCIONES: 19, 35, 52, 67, 83
-//   PREGUNTAS:  10, 25, 47, 60, 75  (ninguna tiene especial a ±1,±2,±3)
+// Casilleros especiales:
+//   PREMIOS:    7, 18, 23, 38, 65, 78, 92
+//   CASTIGOS:   30, 44, 70, 85, 91
+//   ELECCIONES: 19, 35, 52, 66, 83
+//   PREGUNTAS:  3, 9, 17, 25, 40, 48, 60, 74, 86, 90
 //   ESPECIAL13: 13  → retrocede 5
 //   ESPECIAL56: 56  → Bulrichización, vuelve al inicio
-//   PRES:       99  → Elecciones Presidenciales
+//   PRES:       99  → Elecciones Presidenciales (casillero ganador)
+//   CASAROSADA: 100 → La Casa Rosada (solo visual)
 
 export const SPECIAL_SQUARES = {
   premio:    [7, 18, 23, 38, 65, 78, 92],
@@ -18,6 +21,7 @@ export const SPECIAL_SQUARES = {
   especial13: [13],
   especial56: [56],
   presidencial: [99],
+  casarosada: [100],
 };
 
 export const SQUARE_TYPE = {};
@@ -29,54 +33,67 @@ SPECIAL_SQUARES.pregunta.forEach(n => (SQUARE_TYPE[n] = 'pregunta'));
 SPECIAL_SQUARES.especial13.forEach(n => (SQUARE_TYPE[n] = 'especial13'));
 SPECIAL_SQUARES.especial56.forEach(n => (SQUARE_TYPE[n] = 'especial56'));
 SPECIAL_SQUARES.presidencial.forEach(n => (SQUARE_TYPE[n] = 'presidencial'));
+SPECIAL_SQUARES.casarosada.forEach(n => (SQUARE_TYPE[n] = 'casarosada'));
 
-// ─── Espiral: genera las coordenadas (col, row) de cada casillero ───
-// El tablero es de 10x10. Arrancamos desde la esquina exterior y
-// vamos girando hacia el centro. El casillero 0 queda en la esquina
-// inferior-izquierda y el 99 en el centro.
-export function buildSpiralCoords(size = 10) {
-  // Usamos la secuencia estándar de espiral pero empezando desde abajo-izquierda
-  // Para eso generamos en orden normal y luego invertimos el mapeo de número
-  // Generar recorrido espiral estándar (desde top-left, clockwise)
-    const spiral = [];
-  let t = 0, b = size - 1, l = 0, r = size - 1;
-  while (t <= b && l <= r) {
-    for (let c = l; c <= r; c++) spiral.push([t, c]);
-    t++;
-    for (let rr = t; rr <= b; rr++) spiral.push([rr, r]);
-    r--;
-    if (t <= b) { for (let c = r; c >= l; c--) spiral.push([b, c]); b--; }
-    if (l <= r) { for (let rr = b; rr >= t; rr--) spiral.push([rr, l]); l++; }
-  }
+// ─── Espiral: coordenadas fijas segmento por segmento ───
+// Grilla 20 × 11 (cols 0-19, rows 0-10). Las esquinas son compartidas entre
+// el segmento que termina y el que empieza (cada esquina pertenece a ambos).
+//
+// Seg 1  fila sup   →   row 0,  cols 0-19   (sq  0-19,  20 pos)
+// Seg 2  col der    ↓   col 19, rows 1-10   (sq 20-29,  10 pos)
+// Seg 3  fila inf   ←   row 10, cols 18-0   (sq 30-48,  19 pos)
+// Seg 4  col izq    ↑   col 0,  rows 9-2    (sq 49-56,   8 pos)
+// Seg 5  fila sup i →   row 2,  cols 1-17   (sq 57-73,  17 pos)
+// Seg 6  col der i  ↓   col 17, rows 3-8    (sq 74-79,   6 pos)
+// Seg 7  fila inf i ←   row 8,  cols 16-2   (sq 80-94,  15 pos)
+// Seg 8  final      ↑→  col 2 rows 7→4, luego (4,3)=99, (4,4)=100
+export function buildSpiralCoords() {
   const coords = {};
-  // Casillero 0 → último elemento de la espiral (centro-ish), 99 → primero
-  // Queremos que 0 sea el inicio (exterior) y 99 sea el final
-  // La espiral ya está en orden 0..99 desde exterior
-  spiral.forEach(([row, col], idx) => { coords[idx] = { row, col }; });
+  let sq = 0;
+  // Seg 1: fila superior izq→der
+  for (let c = 0; c <= 19; c++) coords[sq++] = { row: 0, col: c };
+  // Seg 2: col derecha arr→abajo
+  for (let r = 1; r <= 10; r++) coords[sq++] = { row: r, col: 19 };
+  // Seg 3: fila inferior der→izq
+  for (let c = 18; c >= 0; c--) coords[sq++] = { row: 10, col: c };
+  // Seg 4: col izquierda abajo→arriba
+  for (let r = 9; r >= 2; r--) coords[sq++] = { row: r, col: 0 };
+  // Seg 5: fila superior interna izq→der
+  for (let c = 1; c <= 17; c++) coords[sq++] = { row: 2, col: c };
+  // Seg 6: col derecha interna arr→abajo
+  for (let r = 3; r <= 8; r++) coords[sq++] = { row: r, col: 17 };
+  // Seg 7: fila inferior interna der→izq
+  for (let c = 16; c >= 2; c--) coords[sq++] = { row: 8, col: c };
+  // Seg 8: tramo final — sube por col 2, luego va a la derecha
+  for (let r = 7; r >= 4; r--) coords[sq++] = { row: r, col: 2 };  // sq 95-98
+  coords[sq++] = { row: 4, col: 3 };  // sq 99 — Elecciones Presidenciales
+  coords[sq++] = { row: 4, col: 4 };  // sq 100 — La Casa Rosada
   return coords;
 }
 
-export const SPIRAL_COORDS = buildSpiralCoords(10);
+export const GRID_W = 20;
+export const GRID_H = 11;
+export const SPIRAL_COORDS = buildSpiralCoords();
 
-// Color por vuelta de espiral
-// Vuelta 0 (casilleros 0-35): exterior
-// Vuelta 1 (36-63)
-// Vuelta 2 (64-83)
-// Vuelta 3 (84-95)
-// Vuelta 4 (96-99): centro
+// Color por tramo de espiral (tablero 20×11)
+// Tramo 0: fila superior exterior     (0-19)
+// Tramo 1: col der + fila inf exterior (20-48)
+// Tramo 2: col izq + fila sup interna  (49-73)
+// Tramo 3: col der + fila inf interna  (74-94)
+// Tramo 4: tramo final hasta La Rosada (95-100)
 const SPIRAL_TURN_COLORS = [
-  { border: '#3b82f6', text: '#1e3a8a', label: 'azul' },    // vuelta 0
-  { border: '#16a34a', text: '#14532d', label: 'verde' },   // vuelta 1
-  { border: '#f59e0b', text: '#92400e', label: 'amarillo' },// vuelta 2
-  { border: '#ec4899', text: '#831843', label: 'rosa' },    // vuelta 3
-  { border: '#8b5cf6', text: '#4c1d95', label: 'violeta' }, // vuelta 4
+  { border: '#3b82f6', text: '#1e3a8a', label: 'azul' },    // tramo 0
+  { border: '#16a34a', text: '#14532d', label: 'verde' },   // tramo 1
+  { border: '#f59e0b', text: '#92400e', label: 'amarillo' },// tramo 2
+  { border: '#ec4899', text: '#831843', label: 'rosa' },    // tramo 3
+  { border: '#8b5cf6', text: '#4c1d95', label: 'violeta' }, // tramo 4
 ];
 
 function getSpiralTurn(squareNum) {
-  if (squareNum <= 35) return 0;
-  if (squareNum <= 63) return 1;
-  if (squareNum <= 83) return 2;
-  if (squareNum <= 95) return 3;
+  if (squareNum <= 19) return 0;
+  if (squareNum <= 48) return 1;
+  if (squareNum <= 73) return 2;
+  if (squareNum <= 94) return 3;
   return 4;
 }
 
@@ -133,7 +150,8 @@ export const SQUARE_COLORS = {
   pregunta:     { bg: '#e0e7ff', border: '#6366f1', text: '#3730a3' },
   especial13:   { bg: '#1a1a2e', border: '#6b21a8', text: '#e879f9' },
   especial56:   { bg: '#1a1a2e', border: '#f97316', text: '#fed7aa' },
-  presidencial: { bg: '#f0fdf4', border: '#16a34a', text: '#14532d' },
+  presidencial: { bg: '#fffbeb', border: '#d97706', text: '#92400e' },
+  casarosada:   { bg: '#f0fdf4', border: '#16a34a', text: '#14532d' },
 };
 
 export const GAME_NAME = 'A 100 pasos de La Rosada';
@@ -142,7 +160,7 @@ export const REGLAMENTO = `
 # Reglamento — ¡A 100 pasos de la Rosada!
 
 ## Objetivo
-Avanzar por el tablero hasta convertirse en Presidente. La carrera comienza cuando te afiliás a un partido político y termina en el casillero de Elecciones Presidenciales (99).
+Avanzar por el tablero hasta convertirse en Presidente. La carrera comienza cuando te afiliás a un partido político y termina en el casillero 99 — Elecciones Presidenciales. El casillero 100 (La Casa Rosada) es la meta final: ¡ahí vas cuando ganás!
 
 ## Partidos
 - **PJ** – Partido Justiciero

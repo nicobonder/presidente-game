@@ -1,11 +1,8 @@
 import React, { useMemo, useEffect } from 'react';
-import { SPIRAL_COORDS, SQUARE_COLORS, SQUARE_TYPE, PARTIES, getSpiralBorderColor } from '../data/boardConfig';
+import { SPIRAL_COORDS, SQUARE_COLORS, SQUARE_TYPE, PARTIES, getSpiralBorderColor, GRID_W, GRID_H } from '../data/boardConfig';
 import CasaRosada from '../Assets/Casa_Rosada.png';
 
 const CELL_SIZE = 64;
-const GAP = 4;
-const GRID = 10;
-const STEP = CELL_SIZE + GAP;
 
 const SQUARE_LABELS = {
   premio: '⭐',
@@ -14,7 +11,8 @@ const SQUARE_LABELS = {
   pregunta: '❓',
   especial13: '🤞🏻',
   especial56: '♻️',
-  presidencial: '🏛️',
+  presidencial: '🗳️',
+  casarosada: '',
   normal: '',
 };
 
@@ -42,8 +40,8 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
   }, [gamePlayers]);
 
   const cells = [];
-  for (let row = 0; row < GRID; row++) {
-    for (let col = 0; col < GRID; col++) {
+  for (let row = 0; row < GRID_H; row++) {
+    for (let col = 0; col < GRID_W; col++) {
       const squareNum = gridToSquare[`${row}_${col}`];
       if (squareNum === undefined) continue;
 
@@ -83,8 +81,8 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
             {squareNum}
           </text>
 
-          {/* Emoji/label (use image for 'presidencial') */}
-          {type === 'presidencial' ? (
+          {/* Emoji/label (use image for 'casarosada') */}
+          {type === 'casarosada' ? (
             <image
               href={CasaRosada}
               x={x + CELL_SIZE / 2 - 14}
@@ -154,7 +152,8 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
     }
   }
 
-  const svgSize = GRID * STEP;
+  const svgW = GRID_W * CELL_SIZE;
+  const svgH = GRID_H * CELL_SIZE;
 
   return (
     <div style={{
@@ -185,10 +184,9 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
       </div>
 
      <svg
-        viewBox={`0 0 ${svgSize} ${svgSize}`}
+        viewBox={`0 0 ${svgW} ${svgH}`}
         width="100%"
-        height="100%"
-        style={{ display: 'block', aspectRatio: '1 / 1' }}
+        style={{ display: 'block' }}
       >
         {cells}
       </svg>
