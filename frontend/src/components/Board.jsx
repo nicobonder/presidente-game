@@ -1,5 +1,6 @@
 import React, { useMemo, useEffect } from 'react';
 import { SPIRAL_COORDS, SQUARE_COLORS, SQUARE_TYPE, PARTIES, getSpiralBorderColor } from '../data/boardConfig';
+import CasaRosada from '../Assets/Casa_Rosada.png';
 
 const CELL_SIZE = 64;
 const GAP = 4;
@@ -82,19 +83,30 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
             {squareNum}
           </text>
 
-          {/* Emoji/label */}
-          {label && (
-            <text
-              x={x + CELL_SIZE / 2}
-              y={y + CELL_SIZE / 2 + (players.length ? -8 : 5)}
-              fontSize={type === 'especial13' || type === 'especial56' ? 13 : 18}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fill={colors.text}
-              fontWeight="bold"
-            >
-              {label}
-            </text>
+          {/* Emoji/label (use image for 'presidencial') */}
+          {type === 'presidencial' ? (
+            <image
+              href={CasaRosada}
+              x={x + CELL_SIZE / 2 - 14}
+              y={y + CELL_SIZE / 2 - 14 + (players.length ? -8 : 5)}
+              width={28}
+              height={28}
+              preserveAspectRatio="xMidYMid slice"
+            />
+          ) : (
+            label && (
+              <text
+                x={x + CELL_SIZE / 2}
+                y={y + CELL_SIZE / 2 + (players.length ? -8 : 5)}
+                fontSize={type === 'especial13' || type === 'especial56' ? 13 : 18}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill={colors.text}
+                fontWeight="bold"
+              >
+                {label}
+              </text>
+            )
           )}
 
           {/* Player tokens */}
