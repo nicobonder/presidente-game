@@ -2,7 +2,7 @@ import React, { useMemo, useEffect } from 'react';
 import { SPIRAL_COORDS, SQUARE_COLORS, SQUARE_TYPE, PARTIES, getSpiralBorderColor, GRID_W, GRID_H } from '../data/boardConfig';
 import CasaRosada from '../Assets/Casa_Rosada.png';
 
-const CELL_SIZE = 64;
+const CELL_SIZE = 80;
 
 const SQUARE_LABELS = {
   premio: '⭐',
@@ -72,8 +72,8 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
 
           {/* Square number — bold, colored by spiral turn */}
           <text
-            x={x + 5} y={y + 15}
-            fontSize={11}
+            x={x + 7} y={y + 20}
+            fontSize={16}
             fontWeight="bold"
             fill={numColor}
             fontFamily="system-ui"
@@ -85,10 +85,10 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
           {type === 'casarosada' ? (
             <image
               href={CasaRosada}
-              x={x + CELL_SIZE / 2 - 14}
-              y={y + CELL_SIZE / 2 - 14 + (players.length ? -8 : 5)}
-              width={28}
-              height={28}
+              x={x + CELL_SIZE / 2 - 26}
+              y={y + CELL_SIZE / 2 - 22 + (players.length ? -8 : 5)}
+              width={50}
+              height={50}
               preserveAspectRatio="xMidYMid slice"
             />
           ) : (
@@ -96,7 +96,7 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
               <text
                 x={x + CELL_SIZE / 2}
                 y={y + CELL_SIZE / 2 + (players.length ? -8 : 5)}
-                fontSize={type === 'especial13' || type === 'especial56' ? 13 : 18}
+                fontSize={type === 'especial13' || type === 'especial56' ? 24 : 24}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 fill={colors.text}
@@ -117,10 +117,10 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
                 <circle
                   cx={x + CELL_SIZE / 2 + offX}
                   cy={y + CELL_SIZE - offY}
-                  r={9}
+                  r={11}
                   fill={party?.color || '#666'}
                   stroke={p.id === currentPlayerId ? '#fbbf24' : 'white'}
-                  strokeWidth={p.id === currentPlayerId ? 3 : 1.5}
+                  strokeWidth={p.id === currentPlayerId ? 3.5 : 2}
                 />
                 {party?.logo ? (
                   <image

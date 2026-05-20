@@ -36,51 +36,60 @@ SPECIAL_SQUARES.presidencial.forEach(n => (SQUARE_TYPE[n] = 'presidencial'));
 SPECIAL_SQUARES.casarosada.forEach(n => (SQUARE_TYPE[n] = 'casarosada'));
 
 // ─── Espiral: coordenadas fijas segmento por segmento ───
-// Grilla 20 × 11 (cols 0-19, rows 0-10). Las esquinas son compartidas entre
-// el segmento que termina y el que empieza (cada esquina pertenece a ambos).
+// Grilla 16 × 12 (cols 0-15, rows 0-11). Esquinas compartidas entre segmentos.
 //
-// Seg 1  fila sup   →   row 0,  cols 0-19   (sq  0-19,  20 pos)
-// Seg 2  col der    ↓   col 19, rows 1-10   (sq 20-29,  10 pos)
-// Seg 3  fila inf   ←   row 10, cols 18-0   (sq 30-48,  19 pos)
-// Seg 4  col izq    ↑   col 0,  rows 9-2    (sq 49-56,   8 pos)
-// Seg 5  fila sup i →   row 2,  cols 1-17   (sq 57-73,  17 pos)
-// Seg 6  col der i  ↓   col 17, rows 3-8    (sq 74-79,   6 pos)
-// Seg 7  fila inf i ←   row 8,  cols 16-2   (sq 80-94,  15 pos)
-// Seg 8  final      ↑→  col 2 rows 7→4, luego (4,3)=99, (4,4)=100
+// Seg 1  fila sup exterior →   row 0,  cols 0-15   (sq  0-15,  16)
+// Seg 2  col der exterior  ↓   col 15, rows 1-11   (sq 16-26,  11)
+// Seg 3  fila inf exterior ←   row 11, cols 14-0   (sq 27-41,  15)
+// Seg 4  col izq exterior  ↑   col 0,  rows 10-2   (sq 42-50,   9)
+// Seg 5  fila sup interna  →   row 2,  cols 1-13   (sq 51-63,  13)
+// Seg 6  col der interna   ↓   col 13, rows 3-9    (sq 64-70,   7)
+// Seg 7  fila inf interna  ←   row 9,  cols 12-2   (sq 71-81,  11)
+// Seg 8  col izq interna   ↑   col 2,  rows 8-3    (sq 82-87,   6)
+// Seg 9  fila sup 2ª int.  →   row 3,  cols 3-11   (sq 88-96,   9)
+// Seg 10 col der 2ª int.   ↓   col 11, rows 4-7    (sq 97-100,  4)
 export function buildSpiralCoords() {
   const coords = {};
   let sq = 0;
-  // Seg 1: fila superior izq→der
-  for (let c = 0; c <= 19; c++) coords[sq++] = { row: 0, col: c };
-  // Seg 2: col derecha arr→abajo
-  for (let r = 1; r <= 10; r++) coords[sq++] = { row: r, col: 19 };
-  // Seg 3: fila inferior der→izq
-  for (let c = 18; c >= 0; c--) coords[sq++] = { row: 10, col: c };
-  // Seg 4: col izquierda abajo→arriba
-  for (let r = 9; r >= 2; r--) coords[sq++] = { row: r, col: 0 };
-  // Seg 5: fila superior interna izq→der
-  for (let c = 1; c <= 17; c++) coords[sq++] = { row: 2, col: c };
-  // Seg 6: col derecha interna arr→abajo
-  for (let r = 3; r <= 8; r++) coords[sq++] = { row: r, col: 17 };
-  // Seg 7: fila inferior interna der→izq
-  for (let c = 16; c >= 2; c--) coords[sq++] = { row: 8, col: c };
-  // Seg 8: tramo final — sube por col 2, luego va a la derecha
-  for (let r = 7; r >= 4; r--) coords[sq++] = { row: r, col: 2 };  // sq 95-98
-  coords[sq++] = { row: 4, col: 3 };  // sq 99 — Elecciones Presidenciales
-  coords[sq++] = { row: 4, col: 4 };  // sq 100 — La Casa Rosada
+  // Seg 1: fila superior exterior. De izq a der. De 0 a 15
+  for (let c = 0; c <= 15; c++) coords[sq++] = { row: 0, col: c }; //c indica cuantos casilleros tiene la fila. 
+  // Seg 2: col derecha exterior. De arr a abajo. De 15 a 23
+  for (let r = 1; r <= 8; r++) coords[sq++] = { row: r, col: 15 }; //col indica en columna se dibuja el segmento
+  // Seg 3: fila inferior exterior. De der a izq. De 23 a 38
+  for (let c = 14; c >= 0; c--) coords[sq++] = { row: 8, col: c };
+  // Seg 4: col izquierda exterior. De 38 a 44
+  for (let r = 7; r >= 2; r--) coords[sq++] = { row: r, col: 0 };
+  // Seg 5: fila superior interna. De 45 a 58
+  for (let c = 1; c <= 13; c++) coords[sq++] = { row: 2, col: c };
+  // Seg 6: col derecha interna. TIENE QUE SER DE 58 A 62
+  for (let r = 3; r <= 6; r++) coords[sq++] = { row: r, col: 13 };
+  // Seg 7: fila inferior interna. TIENE QUE SER DE 62 A 73
+  for (let c = 12; c >= 2; c--) coords[sq++] = { row: 6, col: c };
+  // Seg 8: col izquierda interna. TIENE QUE SER DE 73 A 76
+  for (let r = 5; r >= 3; r--) coords[sq++] = { row: r, col: 2 };
+  // Seg 9: fila superior 2ª interna. ES DE 76 A 85
+  for (let c = 3; c <= 11; c++) coords[sq++] = { row: 3, col: c };
+  // Seg 10: col derecha 2ª interna (sq 97-100). TIENE QUE SER DE 85 A 87
+  for (let r = 4; r <= 5; r++) coords[sq++] = { row: r, col: 11 };
+  // Seg 11: fila inferior 2ª interna DE DER A IZQ. TIENE QUE SER DE 88 A 95
+  for (let c = 10; c >= 3; c--) coords[sq++] = { row: 5, col: c };
+  // Seg 12: col izquierda interior interior. De 94 a 95
+  for (let r = 4; r >= 5; r--) coords[sq++] = { row: r, col: 3 };
+  // Seg 3: fila superior interior ultima. De izq a der. De 95 a 100
+  for (let c = 3; c <= 8; c++) coords[sq++] = { row: 4, col: c };
   return coords;
 }
 
-export const GRID_W = 20;
-export const GRID_H = 11;
+export const GRID_W = 16;
+export const GRID_H = 12;
 export const SPIRAL_COORDS = buildSpiralCoords();
 
-// Color por tramo de espiral (tablero 20×11)
-// Tramo 0: fila superior exterior     (0-19)
-// Tramo 1: col der + fila inf exterior (20-48)
-// Tramo 2: col izq + fila sup interna  (49-73)
-// Tramo 3: col der + fila inf interna  (74-94)
-// Tramo 4: tramo final hasta La Rosada (95-100)
+// Color por tramo de espiral (tablero 16×12)
+// Tramo 0: fila superior exterior       (0-15)
+// Tramo 1: col der + fila inf exterior   (16-41)
+// Tramo 2: col izq + fila sup interna    (42-63)
+// Tramo 3: col der + fila inf interna    (64-81)
+// Tramo 4: tramo interior hasta La Rosada (82-100)
 const SPIRAL_TURN_COLORS = [
   { border: '#3b82f6', text: '#1e3a8a', label: 'azul' },    // tramo 0
   { border: '#16a34a', text: '#14532d', label: 'verde' },   // tramo 1
@@ -90,10 +99,10 @@ const SPIRAL_TURN_COLORS = [
 ];
 
 function getSpiralTurn(squareNum) {
-  if (squareNum <= 19) return 0;
-  if (squareNum <= 48) return 1;
-  if (squareNum <= 73) return 2;
-  if (squareNum <= 94) return 3;
+  if (squareNum <= 15) return 0;
+  if (squareNum <= 41) return 1;
+  if (squareNum <= 63) return 2;
+  if (squareNum <= 81) return 3;
   return 4;
 }
 

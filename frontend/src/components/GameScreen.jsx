@@ -274,12 +274,12 @@ export default function GameScreen({ roomState, playerId, send }) {
       <div style={{ display:'flex', gap:16, padding:16, flexWrap:'wrap', alignItems:'flex-start' }}>
 
         {/* Board 75% */}
-        <div style={{ flex:'0 0 75%', minWidth:0 }}>
+        <div style={{ flex:'0 0 80%', minWidth:0 }}>
           <Board gamePlayers={gp} currentPlayerId={playerId} />
         </div>
 
         {/* Sidebar */}
-        <div style={{ flex:1, minWidth:220, display:'flex', flexDirection:'column', gap:12 }}>
+        <div style={{ flex:'0 0 180px', minWidth:180, display:'flex', flexDirection:'column', gap:10 }}>
 
           {isWinner && (
             <div style={{
