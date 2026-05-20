@@ -10,7 +10,7 @@ const DICE_FACES = ['','⚀','⚁','⚂','⚃','⚄','⚅'];
 const CHAIN_DELAY_MS = 1500;
 
 export default function GameScreen({ roomState, playerId, send }) {
-  const [showHelp, setShowHelp]       = useState(false);
+  // const [showHelp, setShowHelp]       = useState(false);
   const [diceValue, setDiceValue]     = useState(null);
   const [diceVisible, setDiceVisible] = useState(false);
   const diceAnimRef                   = useRef(false);   // ref avoids stale-closure guard
@@ -264,17 +264,17 @@ export default function GameScreen({ roomState, playerId, send }) {
       background:'linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%)',
       fontFamily:'system-ui,sans-serif',
     }}>
-      <button onClick={()=>setShowHelp(true)} style={{
+      {/* <button onClick={()=>setShowHelp(true)} style={{
         position:'fixed',top:16,right:16,zIndex:500,
         width:40,height:40,borderRadius:'50%',
         background:'#334155',border:'2px solid #475569',
         color:'white',fontWeight:800,fontSize:18,cursor:'pointer',
-      }}>?</button>
+      }}>?</button> */}
 
       <div style={{ display:'flex', gap:16, padding:16, flexWrap:'wrap', alignItems:'flex-start' }}>
 
         {/* Board 75% */}
-        <div style={{ flex:'0 0 80%', minWidth:0 }}>
+        <div style={{ flex:'0 0 81%', minWidth:0 }}>
           <Board gamePlayers={gp} currentPlayerId={playerId} />
         </div>
 
@@ -475,7 +475,7 @@ export default function GameScreen({ roomState, playerId, send }) {
         </div>
       )}
 
-      {showHelp && <HelpModal onClose={()=>setShowHelp(false)} />}
+      {/* {showHelp && <HelpModal onClose={()=>setShowHelp(false)} />} */}
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
     </div>
   );

@@ -1,6 +1,7 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { SPIRAL_COORDS, SQUARE_COLORS, SQUARE_TYPE, PARTIES, getSpiralBorderColor, GRID_W, GRID_H } from '../data/boardConfig';
 import CasaRosada from '../Assets/Casa_Rosada.png';
+import HelpModal from './HelpModal';
 
 const CELL_SIZE = 80;
 
@@ -19,6 +20,8 @@ const SQUARE_LABELS = {
 export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick }) {
   // Build grid: squareNum → { row, col }
   const coords = SPIRAL_COORDS;
+
+  const [showHelp, setShowHelp]       = useState(false);
 
   // Build reverse: { row_col: squareNum }
   const gridToSquare = useMemo(() => {
@@ -168,7 +171,7 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
       boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
     }}>
       {/* Leyendas encima del tablero */}
-      <div style={{ display: 'flex', gap: 12, marginBottom: 10, flexWrap: 'wrap', padding: '0 4px' }}>
+      <div style={{ display: 'flex', gap: 12, marginBottom: 10, flexWrap: 'wrap', padding: '0 4px', alignItems: 'center' }}>
         <span style={{ fontSize: 11, color: '#94a3b8', marginLeft: 8, fontWeight: 600 }}>Casilleros:</span>
         {[
           { color: '#eab308', label: '⭐ Premio' },
@@ -181,6 +184,13 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
             {label}
           </span>
         ))}
+        <button onClick={() => setShowHelp(true)} style={{
+          marginLeft: 'auto',
+          width: 40, height: 40, borderRadius: '50%',
+          background: '#334155', border: '2px solid #475569',
+          color: 'white', fontWeight: 800, fontSize: 18, cursor: 'pointer',
+          flexShrink: 0,
+        }}>?</button>
       </div>
 
      <svg
@@ -190,6 +200,7 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
       >
         {cells}
       </svg>
+      {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
     </div>
   );
 }
