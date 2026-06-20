@@ -5,6 +5,7 @@ import HelpModal from './HelpModal';
 import { PARTIES, SQUARE_TYPE, GAME_NAME } from '../data/boardConfig';
 import { movePlayer, resolveCardEffect } from '../utils/gameLogic';
 import cards from '../data/cards.json';
+import '../style.css';
 
 const DICE_FACES = ['','⚀','⚁','⚂','⚃','⚄','⚅'];
 const CHAIN_DELAY_MS = 1500;
@@ -271,15 +272,15 @@ export default function GameScreen({ roomState, playerId, send }) {
         color:'white',fontWeight:800,fontSize:18,cursor:'pointer',
       }}>?</button> */}
 
-      <div style={{ display:'flex', gap:16, padding:16, flexWrap:'wrap', alignItems:'flex-start' }}>
+      <div className="main-container" style={{ display:'flex', gap:16, padding:16, flexWrap:'wrap', alignItems:'flex-start' }}>
 
-        {/* Board 75% */}
-        <div style={{ flex:'0 0 81%', minWidth:0 }}>
+        {/* Board 81% */}
+        <div className="board" style={{ flex:'1 1 0', minWidth:0 }}>
           <Board gamePlayers={gp} currentPlayerId={playerId} />
         </div>
 
         {/* Sidebar */}
-        <div style={{ flex:'0 0 180px', minWidth:180, display:'flex', flexDirection:'column', gap:10 }}>
+        <div className="sidebar">
 
           {isWinner && (
             <div style={{
@@ -368,7 +369,7 @@ export default function GameScreen({ roomState, playerId, send }) {
               </h3>
               <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
                 <div style={{
-                  padding:'6px 10px',borderRadius:8,fontSize:12,
+                  padding:'6px 10px',borderRadius:8,fontSize:12, width:'100%',
                   background:myState.salvacion_used?'#1e293b':'#fff7ed',
                   color:myState.salvacion_used?'#4b5563':'#7c2d12',
                   border:`1px solid ${myState.salvacion_used?'#374151':'#f97316'}`,
@@ -377,7 +378,7 @@ export default function GameScreen({ roomState, playerId, send }) {
                   🛡️ Salvación {myState.salvacion_used?'(usada)':'(disponible)'}
                 </div>
                 <div style={{
-                  padding:'6px 10px',borderRadius:8,fontSize:12,
+                  padding:'6px 10px',borderRadius:8,fontSize:12, width:'100%',
                   background:myState.veto_available?'#fef2f2':'#1e293b',
                   color:myState.veto_available?'#7f1d1d':'#4b5563',
                   border:`1px solid ${myState.veto_available?'#ef4444':'#374151'}`,
@@ -393,10 +394,8 @@ export default function GameScreen({ roomState, playerId, send }) {
           {isMyTurn && !isWinner && !showCard && !showSpecial && !diceVisible && !pending && (
             <div style={{background:'rgba(255,255,255,0.05)',borderRadius:12,padding:16,textAlign:'center'}}>
               <p style={{color:'#fbbf24',fontWeight:700,marginBottom:12,fontSize:14}}>¡Es tu turno!</p>
-              <button onClick={handleRollDice} disabled={rolling} style={{
-                padding:'12px 28px',borderRadius:10,width:'100%',
+              <button className="dice-btn" onClick={handleRollDice} disabled={rolling} style={{              
                 background:rolling?'#374151':'linear-gradient(135deg,#6366f1,#8b5cf6)',
-                color:'white',border:'none',fontWeight:800,fontSize:16,
                 cursor:rolling?'not-allowed':'pointer',
                 boxShadow:rolling?'none':'0 4px 20px rgba(99,102,241,0.4)',
               }}>

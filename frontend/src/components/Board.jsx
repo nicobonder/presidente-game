@@ -1,7 +1,9 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useRef } from 'react';
 import { SPIRAL_COORDS, SQUARE_COLORS, SQUARE_TYPE, PARTIES, getSpiralBorderColor, GRID_W, GRID_H } from '../data/boardConfig';
 import CasaRosada from '../Assets/Casa_Rosada.png';
 import HelpModal from './HelpModal';
+import background from "../Assets/background_bandera.jpg";
+import '../style.css';
 
 const CELL_SIZE = 80;
 
@@ -22,6 +24,8 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
   const coords = SPIRAL_COORDS;
 
   const [showHelp, setShowHelp]       = useState(false);
+  const legendRef = useRef(null);
+  const [maxBoardWidth, setMaxBoardWidth] = useState(null);
 
   // Build reverse: { row_col: squareNum }
   const gridToSquare = useMemo(() => {
@@ -41,6 +45,37 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
     });
     return map;
   }, [gamePlayers]);
+
+  useEffect(() => {
+    const updateBoardWidth = () => {
+      const legendHeight = legendRef.current?.getBoundingClientRect().height ?? 40;
+      const viewportHeight = window.innerHeight;
+
+      // Keep the full board inside the viewport: shell padding + legend + SVG.
+      const availableSvgHeight = Math.max(0, viewportHeight - 32 - 24 - 10 - legendHeight);
+      const contentWidth = availableSvgHeight * (GRID_W / GRID_H);
+
+      // Add the board shell horizontal padding back in because the wrapper uses border-box.
+      setMaxBoardWidth(Math.floor(contentWidth + 24));
+    };
+
+    updateBoardWidth();
+
+    window.addEventListener('resize', updateBoardWidth);
+
+    const legendObserver = typeof ResizeObserver !== 'undefined' && legendRef.current
+      ? new ResizeObserver(updateBoardWidth)
+      : null;
+
+    if (legendObserver && legendRef.current) {
+      legendObserver.observe(legendRef.current);
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateBoardWidth);
+      if (legendObserver) legendObserver.disconnect();
+    };
+  }, []);
 
   const cells = [];
   for (let row = 0; row < GRID_H; row++) {
@@ -161,7 +196,10 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
   return (
     <div style={{
       // Background image hook: replace 'none' with `url('/board-bg.jpg')` later
-      backgroundImage: 'none',
+      backgroundImage: "url(" + background + ")",
+      backgroundSize: '100% 100%',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center center',
       backgroundColor: '#0f172a',
       borderRadius: 12,
       padding: 12,
@@ -169,10 +207,11 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
       width: '100%',
       boxSizing: 'border-box',
       boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+      maxWidth: maxBoardWidth ? `${maxBoardWidth}px` : '100%',
     }}>
       {/* Leyendas encima del tablero */}
-      <div style={{ display: 'flex', gap: 12, marginBottom: 10, flexWrap: 'wrap', padding: '0 4px', alignItems: 'center' }}>
-        <span style={{ fontSize: 11, color: '#94a3b8', marginLeft: 8, fontWeight: 600 }}>Casilleros:</span>
+      <div className="legend-container" ref={legendRef}>
+        <span style={{  fontSize: 11, color: '#94a3b8', marginLeft: 8, fontWeight: 600 }}>Casilleros:</span>
         {[
           { color: '#eab308', label: '⭐ Premio' },
           { color: '#ef4444', label: '💀 Castigo' },
