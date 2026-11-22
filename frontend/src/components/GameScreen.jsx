@@ -11,7 +11,7 @@ const DICE_FACES = ['','⚀','⚁','⚂','⚃','⚄','⚅'];
 const CHAIN_DELAY_MS = 1500;
 
 export default function GameScreen({ roomState, playerId, send }) {
-  // const [showHelp, setShowHelp]       = useState(false);
+  const [showHelp, setShowHelp]       = useState(false);
   const [diceValue, setDiceValue]     = useState(null);
   const [diceVisible, setDiceVisible] = useState(false);
   const diceAnimRef                   = useRef(false);   // ref avoids stale-closure guard
@@ -260,22 +260,13 @@ export default function GameScreen({ roomState, playerId, send }) {
   const isActivePlayer = isActiveCard || isSecondPlayer;
 
   return (
-    <div style={{
-      minHeight:'100vh',
-      background:'linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%)',
-      fontFamily:'system-ui,sans-serif',
-    }}>
-      {/* <button onClick={()=>setShowHelp(true)} style={{
-        position:'fixed',top:16,right:16,zIndex:500,
-        width:40,height:40,borderRadius:'50%',
-        background:'#334155',border:'2px solid #475569',
-        color:'white',fontWeight:800,fontSize:18,cursor:'pointer',
-      }}>?</button> */}
-
-      <div className="main-container" style={{ display:'flex', gap:16, padding:16, flexWrap:'wrap', alignItems:'flex-start' }}>
+    <div className="game-screen">
+      <button className="help-btn" onClick={()=>setShowHelp(true)}>?</button>
+      {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
+      <div className="main-container">
 
         {/* Board 81% */}
-        <div className="board" style={{ flex:'1 1 0', minWidth:0 }}>
+        <div className="board-container">
           <Board gamePlayers={gp} currentPlayerId={playerId} />
         </div>
 
@@ -283,18 +274,13 @@ export default function GameScreen({ roomState, playerId, send }) {
         <div className="sidebar">
 
           {isWinner && (
-            <div style={{
-              background:'linear-gradient(135deg,#fbbf24,#f59e0b)',
-              borderRadius:12,padding:20,textAlign:'center',
-              boxShadow:'0 0 40px rgba(251,191,36,0.4)',
-            }}>
-              <div style={{fontSize:40}}>🏆</div>
-              <div style={{fontWeight:900,fontSize:20,color:'#1c1917',marginTop:8}}>
-                ¡{gp[isWinner]?.name} ES PRESIDENTE!
-              </div>
-              <div style={{fontSize:13,color:'#44403c',marginTop:4,display:'flex',alignItems:'center',gap:8,justifyContent:'center'}}>
+            <div className="winner-div">
+              <h3>🏆</h3>
+              <h2>¡{gp[isWinner]?.name} ES PRESIDENTE!
+              </h2>
+              <div className="parties-container">
                 {PARTIES[gp[isWinner]?.party]?.logo ? (
-                  <img src={PARTIES[gp[isWinner]?.party].logo} alt={PARTIES[gp[isWinner]?.party]?.short} style={{width:20,height:20,borderRadius:'50%'}} />
+                  <img className = "logo-parties-winner" src={PARTIES[gp[isWinner]?.party].logo} alt={PARTIES[gp[isWinner]?.party]?.short}/>
                 ) : null}
                 <span>{PARTIES[gp[isWinner]?.party]?.name}</span>
               </div>
@@ -303,23 +289,19 @@ export default function GameScreen({ roomState, playerId, send }) {
 
           {/* Dice — visible to all */}
           {diceVisible && (
-            <div style={{
-              background:'rgba(255,255,255,0.08)',borderRadius:12,
-              padding:16,textAlign:'center',
-              border:'2px solid rgba(99,102,241,0.4)',
-            }}>
-              <p style={{color:'#94a3b8',fontSize:12,marginBottom:6}}>
+            <div className="dice-container">
+              <p className="dice-label">
                 {gp[pending?.player_id || currentPlayerId]?.name} tiró el dado
               </p>
-              <div style={{fontSize:72,lineHeight:1,display:'inline-block'}}>
+              <div className="dice-rolling">
                 {DICE_FACES[diceValue]||'🎲'}
               </div>
             </div>
           )}
 
           {/* Players */}
-          <div style={{background:'rgba(255,255,255,0.05)',borderRadius:12,padding:16}}>
-            <h3 style={{color:'#94a3b8',margin:'0 0 12px',fontSize:13,textTransform:'uppercase',letterSpacing:1}}>
+          <div className="players-container">
+            <h3>
               Jugadores
             </h3>
             {turnOrder.map(pid => {
@@ -327,34 +309,25 @@ export default function GameScreen({ roomState, playerId, send }) {
               const party=PARTIES[p.party];
               const isCurrent=pid===currentPlayerId;
               return (
-                <div key={pid} style={{
-                  display:'flex',alignItems:'center',gap:10,padding:'8px 0',
-                  borderBottom:'1px solid rgba(255,255,255,0.05)',
+                <div key={pid} className="players-separator" style={{
                   opacity:p.loses_turn?0.5:1,
                 }}>
-                  <div style={{
-                    width:45,height:45,borderRadius:'50%',
-                    background:party?.color||'#666',
-                    display:'flex',alignItems:'center',justifyContent:'center',
-                    fontSize:16,border:isCurrent?'3px solid #fbbf24':'2px solid transparent',
-                    overflow:'hidden'
+                  <div className="logo-parties-container"  style={{
+                    border:isCurrent?'3px solid #fbbf24':'2px solid transparent',
                   }}>
                     {party?.logo ? (
-                      <img src={party.logo} alt={party.short} style={{width:42,height:42,borderRadius:'50%'}} />
+                      <img className="logo-parties" src={party.logo} alt={party.short} />
                     ) : (
-                      <span style={{color:'white',fontWeight:800}}>{party?.short?.[0] || '?'}</span>
+                      <span className="logo-parties-span">{party?.short?.[0] || '?'}</span>
                     )}
                   </div>
-                  <div style={{flex:1}}>
-                    <div style={{color:isCurrent?'#fbbf24':'white',fontWeight:600,fontSize:13}}>
-                      {p.name}{pid===playerId?' (vos)':''}{isCurrent?' ← turno':''}
+                  <div className="parties-info-container">
+                    <div className="parties-name" style={{color:isCurrent?'#fbbf24':'white'}}>
+                      {p.name}{pid===playerId?' (Sos vos)':''}{isCurrent?' ← turno':''}
                     </div>
-                    <div style={{color:'#64748b',fontSize:12}}>
-                      <span style={{fontWeight:600, color:'#fff'}}>Casillero {p.position}</span>/99{p.loses_turn?' · ⏭️ Pierde turno':''}
+                    <div className="parties-position-div">
+                      <span className="parties-position">Casillero {p.position}</span>/99{p.loses_turn?' · ⏭️ Pierde turno':''}
                     </div>
-                  </div>
-                  <div style={{width:50,height:6,background:'#1e293b',borderRadius:3,overflow:'hidden'}}>
-                    <div style={{width:`${(p.position/99)*100}%`,height:'100%',background:party?.color}}/>
                   </div>
                 </div>
               );
@@ -363,13 +336,12 @@ export default function GameScreen({ roomState, playerId, send }) {
 
           {/* My cards */}
           {myState && (
-            <div style={{background:'rgba(255,255,255,0.05)',borderRadius:12,padding:16}}>
-              <h3 style={{color:'#94a3b8',margin:'0 0 10px',fontSize:13,textTransform:'uppercase',letterSpacing:1}}>
+            <div className="my-cards-containers">
+              <h3>
                 Mis tarjetas
               </h3>
-              <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
-                <div style={{
-                  padding:'6px 10px',borderRadius:8,fontSize:12, width:'100%',
+              <div className="my-card-items">
+                <div className="salvation-card" style={{
                   background:myState.salvacion_used?'#1e293b':'#fff7ed',
                   color:myState.salvacion_used?'#4b5563':'#7c2d12',
                   border:`1px solid ${myState.salvacion_used?'#374151':'#f97316'}`,
@@ -377,8 +349,7 @@ export default function GameScreen({ roomState, playerId, send }) {
                 }}>
                   🛡️ Salvación {myState.salvacion_used?'(usada)':'(disponible)'}
                 </div>
-                <div style={{
-                  padding:'6px 10px',borderRadius:8,fontSize:12, width:'100%',
+                <div className="veto-card" style={{
                   background:myState.veto_available?'#fef2f2':'#1e293b',
                   color:myState.veto_available?'#7f1d1d':'#4b5563',
                   border:`1px solid ${myState.veto_available?'#ef4444':'#374151'}`,
@@ -392,8 +363,8 @@ export default function GameScreen({ roomState, playerId, send }) {
 
           {/* Roll button — only show when there is no active pending to avoid re-appearance glitches */}
           {isMyTurn && !isWinner && !showCard && !showSpecial && !diceVisible && !pending && (
-            <div style={{background:'rgba(255,255,255,0.05)',borderRadius:12,padding:16,textAlign:'center'}}>
-              <p style={{color:'#fbbf24',fontWeight:700,marginBottom:12,fontSize:14}}>¡Es tu turno!</p>
+            <div className="roll-btn-container">
+              <p>¡Es tu turno!</p>
               <button className="dice-btn" onClick={handleRollDice} disabled={rolling} style={{              
                 background:rolling?'#374151':'linear-gradient(135deg,#6366f1,#8b5cf6)',
                 cursor:rolling?'not-allowed':'pointer',
@@ -405,18 +376,18 @@ export default function GameScreen({ roomState, playerId, send }) {
           )}
 
           {!isMyTurn && !isWinner && !showCard && !showSpecial && (
-            <div style={{background:'rgba(255,255,255,0.03)',borderRadius:12,padding:16,textAlign:'center'}}>
-              <p style={{color:'#475569',fontSize:13}}>
-                Turno de <strong style={{color:'white'}}>{currentP?.name}</strong>
+            <div className ="player-turn-container">
+              <p>
+                Turno de <strong >{currentP?.name}</strong>
               </p>
             </div>
           )}
 
-          {/* Log */}
-          <div style={{background:'rgba(0,0,0,0.3)',borderRadius:12,padding:12,maxHeight:160,overflowY:'auto'}}>
-            <h3 style={{color:'#475569',margin:'0 0 8px',fontSize:11,textTransform:'uppercase'}}>Historial</h3>
+          {/* Game Story  */}
+          <div className="game-story-container">
+            <h3>Historial</h3>
             {[...actionLog].reverse().map((line,i)=>(
-              <p key={i} style={{color:i===0?'#e2e8f0':'#64748b',fontSize:12,margin:'2px 0'}}>{line}</p>
+              <p key={i} style={{color:i===0?'#e2e8f0':'#64748b'}}>{line}</p>
             ))}
           </div>
         </div>
@@ -449,16 +420,8 @@ export default function GameScreen({ roomState, playerId, send }) {
 
       {/* Special effect (13, 56) */}
       {showSpecial && pending && (
-        <div style={{
-          position:'fixed',inset:0,background:'rgba(0,0,0,0.75)',
-          display:'flex',alignItems:'center',justifyContent:'center',
-          zIndex:1000,backdropFilter:'blur(4px)',
-        }}>
-          <div style={{
-            background:'#1e293b',border:'3px solid #6b21a8',borderRadius:20,
-            padding:32,textAlign:'center',maxWidth:360,
-            boxShadow:'0 20px 60px rgba(0,0,0,0.5)',
-          }}>
+        <div className="special-effect-container">
+          <div className="special-effect-div">
             <div style={{fontSize:56,marginBottom:12}}>{pending.emoji}</div>
             <p style={{color:'white',fontSize:16,fontWeight:700,lineHeight:1.5,marginBottom:20}}>
               {pending.message}
@@ -474,8 +437,9 @@ export default function GameScreen({ roomState, playerId, send }) {
         </div>
       )}
 
-      {/* {showHelp && <HelpModal onClose={()=>setShowHelp(false)} />} */}
+      
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+      
     </div>
   );
 }

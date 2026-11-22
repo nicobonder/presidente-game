@@ -210,19 +210,8 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
       maxWidth: maxBoardWidth ? `${maxBoardWidth}px` : '100%',
     }}>
       {/* Leyendas encima del tablero */}
-      <div className="legend-container" ref={legendRef}>
-        <span style={{  fontSize: 11, color: '#94a3b8', marginLeft: 8, fontWeight: 600 }}>Casilleros:</span>
-        {[
-          { color: '#eab308', label: '⭐ Premio' },
-          { color: '#ef4444', label: '💀 Castigo' },
-          { color: '#3b82f6', label: '🗳️ Elecciones' },
-          { color: '#6366f1', label: '❓ Pregunta' },
-        ].map(({ color, label }) => (
-          <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#94a3b8' }}>
-            <span style={{ width: 12, height: 12, borderRadius: 3, background: color, display: 'inline-block' }} />
-            {label}
-          </span>
-        ))}
+      {/* <div ref={legendRef}>
+        
         <button onClick={() => setShowHelp(true)} style={{
           marginLeft: 'auto',
           width: 40, height: 40, borderRadius: '50%',
@@ -230,7 +219,7 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
           color: 'white', fontWeight: 800, fontSize: 18, cursor: 'pointer',
           flexShrink: 0,
         }}>?</button>
-      </div>
+      </div> */}
 
      <svg
         viewBox={`0 0 ${svgW} ${svgH}`}
