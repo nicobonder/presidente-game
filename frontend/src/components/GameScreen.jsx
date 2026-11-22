@@ -422,24 +422,19 @@ export default function GameScreen({ roomState, playerId, send }) {
       {showSpecial && pending && (
         <div className="special-effect-container">
           <div className="special-effect-div">
-            <div style={{fontSize:56,marginBottom:12}}>{pending.emoji}</div>
-            <p style={{color:'white',fontSize:16,fontWeight:700,lineHeight:1.5,marginBottom:20}}>
+            <div className="special-effect-emoji">{pending.emoji}</div>
+            <p>
               {pending.message}
             </p>
             {isMyTurn
-              ? <button onClick={handleDismissSpecial} style={{
-                  padding:'10px 28px',background:'#6b21a8',color:'white',
-                  border:'none',borderRadius:10,fontWeight:700,fontSize:15,cursor:'pointer',
-                }}>Continuar</button>
-              : <p style={{color:'#64748b',fontSize:13}}>Esperando que {currentP?.name} continúe...</p>
+              ? <button className="continue-btn" onClick={handleDismissSpecial}>Continuar</button>
+              : <p className="continue-txt">Esperando que {currentP?.name} continúe...</p>
             }
           </div>
         </div>
       )}
 
-      
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
-      
     </div>
   );
 }

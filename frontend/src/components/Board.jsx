@@ -194,37 +194,13 @@ export default function Board({ gamePlayers = {}, currentPlayerId, onSquareClick
   const svgH = GRID_H * CELL_SIZE;
 
   return (
-    <div style={{
-      // Background image hook: replace 'none' with `url('/board-bg.jpg')` later
+    <div className="board-bg" style={{
+      // Background image hook: replace 'none' with `url('/board-bg.jpg')`
       backgroundImage: "url(" + background + ")",
-      backgroundSize: '100% 100%',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center center',
-      backgroundColor: '#0f172a',
-      borderRadius: 12,
-      padding: 12,
-      display: 'block',
-      width: '100%',
-      boxSizing: 'border-box',
-      boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
       maxWidth: maxBoardWidth ? `${maxBoardWidth}px` : '100%',
     }}>
-      {/* Leyendas encima del tablero */}
-      {/* <div ref={legendRef}>
-        
-        <button onClick={() => setShowHelp(true)} style={{
-          marginLeft: 'auto',
-          width: 40, height: 40, borderRadius: '50%',
-          background: '#334155', border: '2px solid #475569',
-          color: 'white', fontWeight: 800, fontSize: 18, cursor: 'pointer',
-          flexShrink: 0,
-        }}>?</button>
-      </div> */}
-
-     <svg
+     <svg className="board-svg"
         viewBox={`0 0 ${svgW} ${svgH}`}
-        width="100%"
-        style={{ display: 'block' }}
       >
         {cells}
       </svg>
