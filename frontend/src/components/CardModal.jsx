@@ -36,19 +36,16 @@ function QuestionCard({ card, playerId, pending, isActivePlayer, playerName, onA
       <CardHeader style={style} playerName={playerName} isActivePlayer={isActivePlayer} />
 
       {firstWrong && isSecondPlayer && (
-        <div style={{
-          background:'#fef3c7', border:'1px solid #f59e0b',
-          borderRadius:8, padding:'8px 12px', marginBottom:12, fontSize:13, color:'#92400e'
-        }}>
+        <div className="second-player-answer">
           ⚡ El jugador anterior respondió mal. ¡Tu oportunidad!
         </div>
       )}
 
-      <p style={{ fontWeight:700, fontSize:15, marginBottom:16, color:'#1e1b4b', lineHeight:1.5 }}>
+      <p className="card-question">
         {card.pregunta}
       </p>
 
-      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+      <div className="card-options-div">
         {card.opciones.map((op, i) => {
           let bg='white', border='#c7d2fe', color='#312e81';
 
@@ -61,13 +58,12 @@ function QuestionCard({ card, playerId, pending, isActivePlayer, playerName, onA
           const isDisabled = revealed || !canAnswer;
 
           return (
-            <button key={i} onClick={() => handleChoice(i)} disabled={isDisabled}
+            <button className="answer-btn" key={i} onClick={() => handleChoice(i)} disabled={isDisabled}
               style={{
-                padding:'10px 14px', border:`2px solid ${border}`,
-                borderRadius:8, background:bg, color,
-                fontWeight:600, fontSize:13,
+                border:`2px solid ${border}`,
+                background:bg, color,
                 cursor:isDisabled ? 'default' : 'pointer',
-                textAlign:'left', transition:'all 0.2s',
+                // transition:'all 0.2s',
               }}>
               {String.fromCharCode(65+i)}. {op}
             </button>
@@ -76,7 +72,7 @@ function QuestionCard({ card, playerId, pending, isActivePlayer, playerName, onA
       </div>
 
       {!canAnswer && !revealed && (
-        <p style={{marginTop:12,color:'#64748b',fontSize:12,textAlign:'center'}}>
+        <p className="waiting-answer">
           {firstWrong
             ? 'Esperando que el siguiente jugador responda...'
             : 'Esperando respuesta...'}
@@ -84,8 +80,7 @@ function QuestionCard({ card, playerId, pending, isActivePlayer, playerName, onA
       )}
 
       {revealed && (
-        <p style={{
-          marginTop:14, fontWeight:700, fontSize:14, textAlign:'center',
+        <p className="result-revealed" style={{
           color: selected === card.correcta ? '#16a34a' : '#dc2626'
         }}>
           {selected === card.correcta
@@ -114,34 +109,31 @@ function StandardCard({ card, cardType, playerParty, playerName, isActivePlayer,
     <div style={cardContainer(style)}>
       <CardHeader style={style} />
       {playerParty && card.partido && !card.partido['todos'] && (
-        <div style={{ fontSize: 11, color: '#64748b', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
+        <div className="card-party-logo-div">
           {PARTIES[playerParty]?.logo && (
-            <img src={PARTIES[playerParty].logo} alt={PARTIES[playerParty]?.short} style={{ width: 16, height: 16, borderRadius: '50%' }} />
+            <img className="card-party-logo" src={PARTIES[playerParty].logo} alt={PARTIES[playerParty]?.short} />
           )}
           {PARTIES[playerParty]?.name}
         </div>
       )}
-      <p style={{ fontSize: 14, marginBottom: 14, color: '#1e293b', lineHeight: 1.6, fontWeight: 500 }}>
+      <p className="party-text">
         {textoPartido}
       </p>
-      <div style={{
-        background: 'rgba(0,0,0,0.06)', borderRadius: 8, padding: '8px 12px',
-        fontWeight: 800, fontSize: 15, color: style.header, textAlign: 'center', marginBottom: 16,
-      }}>
+      <div className="card-effect-div" style={{color: style.header}}>
         {effectLabel}
       </div>
 
       {/* Rival selector */}
       {card.efecto === 'elige_rival_retrocede' && rivals && (
-        <div style={{ marginBottom: 12 }}>
-          <p style={{ fontSize: 12, marginBottom: 6, fontWeight: 600, color: '#475569' }}>
+        <div className="rival-selector-div" style={{ marginBottom: 12 }}>
+          <p>
             Elegí un rival para hacer retroceder hasta {card.cantidad} casilleros:
           </p>
           {rivals.map(r => (
             <button key={r.id} onClick={() => onConfirm({ action: 'choose_rival', rival_id: r.id, cantidad: card.cantidad })}
-              style={{ ...actionBtn(PARTIES[r.party]?.color || '#666'), display: 'flex', alignItems: 'center', gap: 8 }}>
+              style={{ ...actionBtn(PARTIES[r.party]?.color || '#666')}}>
               {PARTIES[r.party]?.logo
-                ? <img src={PARTIES[r.party].logo} alt={PARTIES[r.party]?.short} style={{ width: 22, height: 22, borderRadius: '50%' }} />
+                ? <img className="rival-selector-logo" src={PARTIES[r.party].logo} alt={PARTIES[r.party]?.short} />
                 : null
               }
               {r.name}
@@ -176,19 +168,19 @@ function StandardCard({ card, cardType, playerParty, playerName, isActivePlayer,
       )}
 
       {isActivePlayer && cardType === 'premio' && pendingType === 'waiting_veto' && (
-        <p style={{ color: '#1e3a8a', fontSize: 13, textAlign: 'center', marginTop: 8, fontWeight: 600 }}>
+        <p className="apply-punishment">
           {timer > 0 ? `⭐ Premio se aplica en ${timer}s…` : '⭐ Aplicando premio…'}
         </p>
       )}
 
       {pendingType === 'show_card_no_confirm' && (
-        <p style={{ color: '#64748b', fontSize: 13, textAlign: 'center', marginTop: 8 }}>
+        <p className="applying-punishment">
           Aplicando en 3 segundos...
         </p>
       )}
 
       {!isActivePlayer && !canVeto && pendingType !== 'show_card_no_confirm' && (
-        <p style={{ color: '#64748b', fontSize: 12, textAlign: 'center', marginTop: 8 }}>
+        <p className="waiting-veto">
           {pendingType === 'waiting_veto'
             ? (timer !== null && timer > 0 ? `Tenés ${timer}s para usar el Veto` : 'Tiempo agotado')
             : 'Observando...'}

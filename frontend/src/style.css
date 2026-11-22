@@ -342,3 +342,134 @@
     width: 100%;
     display: block;
 }
+
+/***** Card Modal styles *****/
+
+/* Question Card */
+.second-player-answer {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #92400e;
+}
+
+.card-question {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 16px;
+    color: #1e1b4b;
+    line-height: 1.5;
+}
+
+.card-options-div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.answer-btn {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.waiting-answer {
+    margin-top: 12px;
+    color: #64748b;
+    font-size: 12px;
+    text-align: center;
+}
+
+.result-revealed {
+    margin-top: 14px;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Standard Card */
+.card-party-logo-div {
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.card-party-logo {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.party-text {
+    font-size: 14px;
+    margin-bottom: 14px;
+    color: #1e293b;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.card-effect-div {
+    background: rgba(0,0,0,0.06);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-weight: 800;
+    font-size: 15px;
+   
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.rival-selector-div {
+    margin-bottom: 12px;
+}
+
+.rival-selector-div p {
+    font-size: 12px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.rival-selector-div button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rival-selector-logo {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+.apply-punishment {
+    color: #1e3a8a;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 8px;
+    font-weight: 600;
+}
+
+.applying-punishment {
+    color: #64748b;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 8px;
+}
+
+.waiting-veto {
+    color: #64748b;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 8px;
+}
+
